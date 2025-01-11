@@ -1,0 +1,112 @@
+.body {
+    width:100%;
+    overflow-x:hidden;
+    overflow-y:hidden;
+}
+
+.photo {
+    background-image: url(../public/aboutpage.png);
+    height: 100%;
+    background-position: center top;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.text {
+    font-family: 'Times New Roman';
+    padding-top: 100px;
+    padding-bottom: 60px;
+}
+.ourTeam {
+    margin-bottom: 50px;
+    color: #ffffff;
+    font-weight:bolder; 
+    text-align: center;
+    font-family: "Times New Roman";
+    font-size: 70px;
+    background-color:#edd1a93d;
+}
+
+.table {
+    display: grid;
+    grid-template-columns: repeat(3,1fr);
+    grid-template-rows: repeat(3,1fr);
+    gap: 5%;
+    margin-right: 5%;
+    margin-left:5%;
+    margin-bottom: 200px;
+}
+
+.cells {
+    background-color:#e5bb7fbb;
+    border-radius: 10px;
+}
+
+.div1 {
+    grid-column-start: 1;
+    grid-column-start: 1;
+}
+
+.div2 {
+    grid-column-start: 1;
+    grid-column-start: 2;
+}
+
+.div3 {
+    grid-column-start: 1;
+    grid-column-start: 3;
+}
+
+.div4 {
+    grid-column-start: 2;
+    grid-column-start: 1;
+}
+
+.div5 {
+    grid-column-start: 2;
+    grid-column-start: 2;
+}
+
+.div6 {
+    grid-column-start: 2;
+    grid-column-start: 3;
+}
+
+.div7 {
+    grid-column-start: 3;
+    grid-column-start: 1;
+}
+
+.headshot {
+    width: 80%;
+    height: auto;
+    margin: 50px 10% 50px 10%;    
+    border-radius: 100%;
+    aspect-ratio: 1 / 1;
+}
+
+.customHeadshot {
+    width: 80%;
+    height: auto;
+    margin: 50px 10% 50px 10%;    
+    border-radius: 100%;
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+    object-position: center 20%;
+}
+
+.name {
+    color: #ffffff;
+    font-weight:bolder; 
+    text-align: center;
+    font-size: 70px;
+    font-family: "Times New Roman";
+}
+
+.position {
+    color: #ffffff;
+    font-weight:bold; 
+    text-align: center;
+    font-size: 50px;
+    margin-bottom: 20px;
+}

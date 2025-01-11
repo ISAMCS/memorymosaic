@@ -1,0 +1,102 @@
+/* Styles for the main navbar container */
+.navbar {
+  position: fixed; /* Keeps the navbar at the top of the page */
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000; /* Ensures navbar stays on top of other elements */
+  font-family: 'Times New Roman';
+  background-color: #e0af6aad; /* Light brown, slightly transparent background */
+  color: #ffffff; /* White text */
+  display: flex; /* Uses flexbox for layout */
+  align-items: center; /* Vertically centers items */
+  justify-content: space-between; /* Spreads out left and right sections */
+  padding: 0 20px; /* Adds some horizontal padding */
+}
+
+/* Removes bullet points from lists and makes them horizontal */ 
+.navbar ul {
+  list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex; /* Makes list items horizontal */
+    float: wrap; /* Allows wrapping if needed */
+}
+
+/* Styles for the left section of the navbar */
+div.navbarLeft {
+  display: flex;
+  align-items: center; /* Vertically centers items */
+}
+
+/* Styles for the right section of the navbar */
+div.navbarRight {
+  display: flex;
+  flex-wrap: wrap; /* Allows items to wrap to next line if needed */
+}
+
+/* Styles for the logo image */
+.logoPic {
+  width: 30px;
+  height: 30px;
+  margin: 8px 10px 8px 0; /* Adds space around the logo */
+}
+
+/* Styles for the website title */
+.logo {
+  font-weight: bold;
+  float: left;
+  display: block;
+  text-align: center;
+  padding: 5px 10px;
+  text-decoration: none;
+  font-size: 17px;
+}
+
+
+/* Styles for navbar links */
+.navbar a {
+  color: #ffffff; /* White text */
+  display: block;
+  text-align: center;
+  padding: 14px 16px;
+  border-radius: 25px; /* Rounds the corners */
+  text-decoration: none;
+  font-size: 17px;
+  transition: background-color 0.3s, letter-spacing 0.3s; /* Smooth transition for hover effects */
+  }
+
+/* Styles for links when hovered over */
+.navbar a:hover {
+  background-color: #dca455; /* Darker background on hover */
+  color: rgb(255, 255, 255);
+  letter-spacing: 2px; /* Spreads out the letters slightly */
+}
+
+/* Styles for links when clicked */
+.navbar a:active {
+  font-weight: bold;
+}
+
+/* Responsive design for smaller screens */
+@media screen and (max-width: 768px) {
+  /*
+    This line defines the conditions under which the enclosed styles will be applied.
+    screen - Specifies that these styles are for screen devices (as opposed to print or other media types).
+    (max-width: 768px) - This is the condition. It means "apply these styles when the viewport width is 768 pixels or less".
+    Upon research I found that 768px is a common breakpoint for tablets and mobile devices.
+  */
+  .navbar {
+    flex-direction: column; /* Stacks navbar items vertically */
+    align-items: flex-start; /* aligns the flex items to the start of the cross axis (which is horistonal cus of the column direction */
+  }
+
+  .navbarRight {
+    width: 100%;
+    justify-content: flex-start;
+  }
+
+  .navbar a {
+    padding: 10px; /* Reduces padding for smaller screens */
+  }
+}

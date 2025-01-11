@@ -1,0 +1,73 @@
+
+.photo {
+    background-image: url(../public/dog.jpg);
+    height: 100vh;
+    background-position: center top;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.pad {
+    padding-top: 100px; 
+}
+
+.box {
+    font-family: 'Times New Roman';
+    width: 40%;
+    background-color: #e5bb7f75;
+    margin: 0 30% 0 30%;
+    height: 450px;
+    border-radius: 10px;
+    color: #ffffff;
+}
+
+.logoContainer {
+    padding: 5% 0 5% 0; 
+    display:flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.logo {
+    height:50px;
+    width: auto;
+    padding-right: 20px;
+}
+
+.title {
+    font-size: 50px;
+    font-weight: bold;
+}
+
+.boxDes {
+    margin: 0 0 0 10%;
+    font-size: 30px;
+}
+
+.textBox {
+    margin: 10px 10% 40px 10%;
+    font-family: 'Times New Roman';
+    background-color: 	#edd1a96f;
+    font-size: 30px;
+    width: 80%;
+    border: none;
+}
+
+.createUser {
+    display: block;
+    text-align: center;
+    padding: 14px 16px;
+    border-radius: 25px;
+    font-size: 20px;
+    background-color: #e9c694;
+    color: #ffffff; /* Ensures text is readable on button */
+    margin: 0 20% 0 20%;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease; /* Smooth hover effect */
+}
+
+/* .getRid {
+    margom:
+} */
+
