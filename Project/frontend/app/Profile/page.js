@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import styles from './Profile.module.css';
+import styles from './profile.module.css';
 
 const API_BASE_URL = 'http://localhost:3000';
 

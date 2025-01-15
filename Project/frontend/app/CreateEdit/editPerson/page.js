@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { useParams, useRouter } from 'next/navigation';
-import styles from './edit-Person.module.css';
+import styles from './edit-person.module.css';
 
 const EditPerson = () => {
   
