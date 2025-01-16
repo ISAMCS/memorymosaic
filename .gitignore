@@ -134,3 +134,4 @@ dist
 
 # environment variables
 .env
+.vercel
