@@ -6,7 +6,7 @@
   "type": "module",
   "scripts": {
     "start": "node server.js",
-    "build": "cd Project/frontend && next build",
+    "build": "cd Project/frontend && npm run build",
     "dev": "cd Project/frontend && next dev",
     "lint": "eslint ."
   },
