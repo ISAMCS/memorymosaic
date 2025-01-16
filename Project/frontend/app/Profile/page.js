@@ -40,10 +40,6 @@ const Profile = () => {
     fetchUserProfile();
   }, []);
 
-  const handleSquareClick = (path) => {
-    router.push(path);
-  };
-
   const handleLogout = async () => {
     try {
       const response = await fetch(`${API_BASE_URL}/logout`, {
@@ -61,8 +57,12 @@ const Profile = () => {
     }
   };
 
+  const handleSquareClick = (route) => {
+    router.push(route);
+  };
+  
   if (loading) {
-    return <p>Loading...</p>;
+    return <div>Loading...</div>;
   }
 
   if (!user) {
