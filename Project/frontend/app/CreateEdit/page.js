@@ -67,7 +67,7 @@ export default function CreateEdit() {
         </Link>
         <Link href="/CreateEdit/editPerson" className={styles.card}>
           <h2>Edit Person</h2>
-          <p>Modify an existing person's details</p>
+          <p>Modify an existing person&apos;s details</p>
         </Link>
       </div>
     </div>

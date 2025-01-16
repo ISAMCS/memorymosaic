@@ -1,3 +1,4 @@
+import React from 'react';
 import Image from "next/image";
 import userImg from '/public/user.png';
 import documentImg from '/public/document.png';

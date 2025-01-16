@@ -47,12 +47,6 @@ const ViewPerson = () => {
   };
 
 
-  const handleViewPerson = () => {
-    // This function is now just for visual feedback, as selection is handled by the dropdown
-    if (selectedPerson) {
-      console.log(`Viewing ${selectedPerson.name}'s memories`);
-    }
-  };
 
   const handlePersonSelect = (event) => {
     const selectedId = event.target.value;
@@ -115,7 +109,7 @@ const ViewPerson = () => {
           <div className={styles.memoryCarousel}>
           <div className={styles.memoryArchive}>
           <h2 className={styles.centeredHeading}> </h2>
-              <h2>{selectedPerson.name}'s Memories</h2>
+              <h2>{selectedPerson.name}&apos;s Memories</h2>
             <div className={styles.carouselContainer}>
               <button className={styles.arrowButton} onClick={handlePrevMemory}>&lt;</button>
               <div className={styles.memoryCard}>

@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
 import Link from 'next/link';
 import Image from 'next/image';
 import userImg from '../public/addUser.png';
@@ -34,6 +35,14 @@ const PersonIcon = ({ person, onDelete }) => {
       <button className={styles.deleteButton} onClick={() => onDelete(person._id)}>Delete Person</button>
     </div>
   );
+};
+PersonIcon.propTypes = {
+  person: PropTypes.shape({
+    _id: PropTypes.string.isRequired,
+    name: PropTypes.string.isRequired,
+    profilePicture: PropTypes.string,
+  }).isRequired,
+  onDelete: PropTypes.func.isRequired,
 };
 
 const App = () => {

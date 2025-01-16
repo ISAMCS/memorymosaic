@@ -4,7 +4,6 @@ import styles from "./navbar.module.css";
 import Image from "next/image";
 import LogoImg from "../public/Logo.png";
 import './navbar.module.css';
-// This code defines a Navbar component using React
 
 const Navbar = () => {
   return (
@@ -42,7 +41,7 @@ const Navbar = () => {
       </li>
        {/* View Person page link */}
       <li>
-          <Link href="/ViewPerson">View Person</Link>
+          <Link href="/viewperson">View Person</Link>
       </li>
     </ul>
      {/* Second set of navigation links */}

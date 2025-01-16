@@ -73,7 +73,7 @@ const CreatePersonPage = () => {
         try {
           const errorData = await response.json();
           errorMessage = errorData.message || `HTTP error! status: ${response.status}`;
-        } catch (e) {
+        } catch (error) {
           errorMessage = `HTTP error! status: ${response.status}`;
         }
         throw new Error(errorMessage);

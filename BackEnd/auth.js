@@ -1,6 +1,6 @@
-require('dotenv').config();
-const { OAuth2Client } = require('google-auth-library');
-const User = require('./models');
+require("dotenv").config();
+const { OAuth2Client } = require("google-auth-library");
+const User = require("./models");
 const CLIENT_ID = process.env.GOOGLE_CLIENT_ID; // Replace with your Google Client ID
 
 const client = new OAuth2Client(CLIENT_ID);
@@ -13,11 +13,11 @@ async function verifyIdToken(idToken) {
             audience: CLIENT_ID,
         });
         const payload = ticket.getPayload(); // Contains user info
-        const userId = payload['sub']; // Unique Google ID for the user
+        const userId = payload["sub"]; // Unique Google ID for the user
         return { userId, payload };
     } catch (error) {
-        console.error('Error verifying ID token:', error);
-        throw new Error('Invalid ID token');
+        console.error("Error verifying ID token:", error);
+        throw new Error("Invalid ID token");
     }
 }
 
@@ -36,8 +36,8 @@ async function createUserFromPayload(payload) {
 
         return newUser;  // Return the saved user
     } catch (error) {
-        console.error('Error creating user:', error);
-        throw new Error('Error creating new user in the database');
+        console.error("Error creating user:", error);
+        throw new Error("Error creating new user in the database");
     }
 }
 

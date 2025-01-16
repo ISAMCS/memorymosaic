@@ -1,5 +1,7 @@
+import React from 'react';
 import Navbar from './components/navbar.js';
 import "./globals.css";
+import PropTypes from 'prop-types';
 
 export const metadata = {
   title: "Create Next App",
@@ -16,3 +18,7 @@ export default function RootLayout({ children }) {
     </html>
   );
 }
+
+RootLayout.propTypes = {
+  children: PropTypes.node.isRequired,
+};

@@ -1,0 +1,43 @@
+import { getSession } from 'next-auth/react';
+import mongoose from 'mongoose';
+import User from '../../models/User'; // Adjust the import path as needed
+
+// Connect to the database
+const connectToDatabase = async () => {
+  if (mongoose.connection.readyState >= 1) return;
+
+  return mongoose.connect(process.env.MONGODB_URI, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  });
+};
+
+export default async (req, res) => {
+  await connectToDatabase();
+
+  const session = await getSession({ req });
+
+  if (!session) {
+    return res.status(401).json({ message: 'Unauthorized' });
+  }
+
+  try {
+    // Fetch user profile data from the database
+    const user = await User.findById(session.user.id).exec();
+
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+
+    const userProfile = {
+      name: user.name,
+      email: user.email,
+      // Add more user details as needed
+    };
+
+    res.status(200).json(userProfile);
+  } catch (error) {
+    console.error('Error fetching user profile:', error);
+    res.status(500).json({ message: 'Error fetching user profile', error });
+  }
+};

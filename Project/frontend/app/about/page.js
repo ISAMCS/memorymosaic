@@ -1,6 +1,6 @@
+import React from "react";
 import styles from "./about.module.css";
 import Image from "next/image";
-import dummyHeadshot from "../public/headshot-dummy.jpg";
 import graceHeadshot from "../public/graceHeadshot.jpg";
 import colinHeadshot from "../public/colinHeadshot.jpg";
 import isabellaHeadshot from "../public/isabellaHeadshot.png"

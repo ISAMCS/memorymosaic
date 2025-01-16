@@ -1,5 +1,5 @@
 // Import models to interact with database collections
-const { User, Memory, Comment, Person } = require('./models');
+const { User, Memory, Comment, Person } = require("./models");
 
 // Function to handle Google login or user creation
 // Ensures a user is created if they don't already exist in the database
@@ -17,7 +17,7 @@ async function handleGoogleLogin(googleProfile) {
         }
         return user; // Return the existing or newly created user
     } catch (error) {
-        console.error('Error handling Google login:', error);
+        console.error("Error handling Google login:", error);
         throw error; // Throw error to be handled by the caller
     }
 }
@@ -28,7 +28,7 @@ async function getPeopleByUserId(userId) {
     try {
         return await Person.find({ userId }); // Retrieve all people linked to the user
     } catch (error) {
-        console.error('Error retrieving people:', error);
+        console.error("Error retrieving people:", error);
         throw error; // Throw error to be handled by the caller
     }
 }
@@ -41,7 +41,7 @@ async function createPerson(userId, name, profilePicture) {
         await person.save(); // Save the new person in the database
         return person; // Return the created person
     } catch (error) {
-        console.error('Error creating person:', error);
+        console.error("Error creating person:", error);
         throw error; // Throw error to be handled by the caller
     }
 }
@@ -52,7 +52,7 @@ async function editPerson(personId, updates) {
     try {
         return await Person.findByIdAndUpdate(personId, updates, { new: true }); // Update person details
     } catch (error) {
-        console.error('Error editing person:', error);
+        console.error("Error editing person:", error);
         throw error; // Throw error to be handled by the caller
     }
 }
@@ -67,7 +67,7 @@ async function deletePerson(personId) {
         await Comment.deleteMany({ memoryId: { $in: memoryIds } }); // Delete associated comments
         return await Person.findByIdAndDelete(personId); // Delete the person
     } catch (error) {
-        console.error('Error deleting person:', error);
+        console.error("Error deleting person:", error);
         throw error; // Throw error to be handled by the caller
     }
 }
@@ -79,7 +79,7 @@ async function deleteMemory(memoryId) {
         await Comment.deleteMany({ memoryId }); // Delete associated comments
         return await Memory.findByIdAndDelete(memoryId); // Delete the memory itself
     } catch (error) {
-        console.error('Error deleting memory:', error);
+        console.error("Error deleting memory:", error);
         throw error; // Throw error to be handled by the caller
     }
 }

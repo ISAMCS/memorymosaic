@@ -1,20 +1,15 @@
 "use client";
 
 import React, { useState, useEffect } from 'react';
-import { useParams, useRouter } from 'next/navigation';
+import { useParams } from 'next/navigation';
 import styles from './edit-person.module.css';
 
 const EditPerson = () => {
   
-  const [currentMemoryIndex, setCurrentMemoryIndex] = useState(0);
 
   const { id } = useParams();
-  const router = useRouter();
   const [people, setPeople] = useState([]);
   const [selectedPerson, setSelectedPerson] = useState(null);
-  const [name, setName] = useState('');
-  const [relationship, setRelationship] = useState('');
-  const [photo, setPhoto] = useState(null);
   const [memoryTitle, setMemoryTitle] = useState('');
   const [memoryComment, setMemoryComment] = useState('');
   const [memoryPhoto, setMemoryPhoto] = useState(null);
@@ -30,8 +25,6 @@ const EditPerson = () => {
       const person = people.find(p => p._id === id);
       if (person) {
         setSelectedPerson(person);
-        setName(person.name);
-        setRelationship(person.relationship);
       }
     }
   }, [people, id]);
