@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import styles from './profile.module.css';
 
-const API_BASE_URL = 'http://localhost:3000';
+const BACKEND_URL = process.env.BACKEND_URL
 
 const Profile = () => {
   const [user, setUser] = useState(null);
@@ -14,7 +14,7 @@ const Profile = () => {
   useEffect(() => {
     const fetchUserProfile = async () => {
       try {
-        const response = await fetch(`${API_BASE_URL}/api/user-profile`, {
+        const response = await fetch(`/api/user-profile`, {
           method: 'GET',
           credentials: 'include',
           headers: {
@@ -42,7 +42,7 @@ const Profile = () => {
 
   const handleLogout = async () => {
     try {
-      const response = await fetch(`${API_BASE_URL}/logout`, {
+      const response = await fetch(`/logout`, {
         method: 'GET',
         credentials: 'include',
       });
@@ -78,7 +78,7 @@ const Profile = () => {
     <div className={styles.container}>
       <h1 className={styles.welcome}>Welcome, {user.name}!</h1>
       <div className={styles.squaresContainer}>
-        <div className={styles.square} onClick={() => handleSquareClick('/ViewPerson')}>
+        <div className={styles.square} onClick={() => handleSquareClick('/viewperson')}>
           View People
         </div>
         <div className={styles.square} onClick={() => handleSquareClick('/CreateEdit')}>

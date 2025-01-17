@@ -15,7 +15,7 @@ const PersonIcon = ({ person, onDelete }) => {
     <div className={styles.userIcon}>
       <div className={styles.imageContainer}>
         {person.profilePicture ? (
-          <img
+          <Image
             src={`${API_BASE_URL}${person.profilePicture.replace(API_BASE_URL, '')}`}
             alt={person.name}
             width={100}

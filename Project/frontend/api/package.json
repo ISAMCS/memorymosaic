@@ -1,14 +1,9 @@
 {
   "name": "backend",
   "version": "1.0.0",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "author": "",
-  "license": "ISC",
-  "description": "",
+  "type": "module",
   "dependencies": {
+    "@vercel/blob": "^0.27.0",
     "auth0": "^4.16.0",
     "cors": "^2.8.5",
     "dotenv": "^16.4.7",

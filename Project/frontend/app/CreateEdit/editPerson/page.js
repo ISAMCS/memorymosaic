@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'next/navigation';
+import Image from 'next/image';
 import styles from './edit-person.module.css';
 
 const EditPerson = () => {
@@ -148,7 +149,7 @@ const EditPerson = () => {
             <div key={person._id} className={styles.profileWrapper} onClick={() => handlePersonClick(person)}>
               <div className={styles.imageContainer}>
                 {person.profilePicture ? (
-                  <img src={person.profilePicture} alt={person.name} className={styles.profilePicture} />
+                  <Image src={person.profilePicture} alt={person.name} width={500} height={500} className={styles.profilePicture} />
                 ) : (
                   <div className={styles.placeholderImage}>
                     {person.name.charAt(0).toUpperCase()}
@@ -169,7 +170,7 @@ const EditPerson = () => {
             <div className={styles.memoryUploadContainer}>
               <div className={styles.uploadBox} onClick={() => document.getElementById('memoryUpload').click()}>
                 {memoryPreview ? (
-                  <img src={memoryPreview} alt="Memory preview" className={styles.memoryPreview} />
+                  <Image src={memoryPreview} alt="Memory preview" width={500} height={500} className={styles.memoryPreview} />
                 ) : (
                   <p>Click to upload a photo</p>
                 )}
@@ -203,7 +204,7 @@ const EditPerson = () => {
               {selectedPerson.memories.map((memory, index) => (
                 <div key={memory._id} className={styles.memoryItem}>
                   <h4>Memory #{index + 1}: {memory.title}</h4>
-                  <img src={memory.photo} alt={memory.title} className={styles.memoryPhoto} />
+                  <Image src={memory.photo} alt={memory.title} width={500} height={500} className={styles.memoryPhoto} />
                   {memory.comments.map((comment, commentIndex) => (
                     <p key={commentIndex}>{comment.text}</p>
                   ))}

@@ -135,3 +135,4 @@ dist
 # environment variables
 .env
 .vercel
+.next
