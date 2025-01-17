@@ -133,10 +133,8 @@ async function verifyGoogleIdToken(idToken) {
 
 console.log('Mongo URI:', mongoURI);
 
-mongoose.connect(mongoURI).then(() => {
-  console.log('Connected to MongoDB');
-}).catch(err => {
-  console.error('Error connecting to MongoDB', err);
+mongoose.connect('mongodb://localhost:27017/', {
+  directConnection: true
 });
 
 // Google authentication routes
