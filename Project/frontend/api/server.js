@@ -1,18 +1,18 @@
-import dotenv from 'dotenv';
+const dotenv = require('dotenv');
 dotenv.config();
-import express from 'express';
-import session from 'express-session';
-import passport from 'passport';
-import { Strategy as GoogleStrategy } from 'passport-google-oauth20';
-import fetch from 'node-fetch';
-import mongoose from 'mongoose';
-import { User, Memory, Person } from './models.js';
-import cors from 'cors';
-import fs from 'fs';
-import path from 'path';
-import multer from 'multer';
-import { put } from '@vercel/blob';
-import MongoStore from 'connect-mongo';
+const express = require('express');
+const session = require('express-session');
+const passport = require('passport');
+const { Strategy: GoogleStrategy } = require('passport-google-oauth20');
+const fetch = require('node-fetch');
+const mongoose = require('mongoose');
+const { User, Memory, Person } = require('./models.js');
+const cors = require('cors');
+const fs = require('fs');
+const path = require('path');
+const multer = require('multer');
+const { put } = require('@vercel/blob');
+const MongoStore = require('connect-mongo');
 
 const app = express(); // Create an instance of the Express application
 const port = process.env.PORT || 3000;
@@ -43,12 +43,10 @@ app.use(session({
   })
 }));
 
-
 // Configure CORS
 app.use(cors({
   origin: ['https://memorymosaic.vercel.app'],
   methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
-  credentials: true
 }));
 
 passport.use(new GoogleStrategy({
@@ -463,4 +461,31 @@ app.put('/api/people/:personId/memories/:memoryId', upload.single('photo'), asyn
   }
 });
 
-export default app;
+app.put('/api/user-profile', async (req, res) => {
+  try {
+    const { id, comment, photo } = req.body;
+    const person = await Person.findById(id);
+
+    if (!person) {
+      return res.status(404).json({ message: 'Person not found' });
+    }
+
+    person.comment = comment;
+    if (photo) {
+      person.photo = photo;
+    }
+
+    await person.save();
+    res.status(200).json(person);
+  } catch (error) {
+    console.error('Error updating memory:', error);
+    res.status(500).json({ message: 'Error updating memory', error: error.message });
+  }
+});
+
+
+app.listen(port, () => {
+  console.log(`Server is running on port ${port}`);
+});
+
+module.exports = app;
