@@ -42,7 +42,7 @@ app.use(session({
 
 // Configure CORS
 app.use(cors({
-  origin: 'https://memorymosaic.vercel.app', // Your frontend URL
+  origin: ['https://memorymosaic.vercel.app'],
   methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
   credentials: true // Allow credentials
 }));
@@ -129,8 +129,9 @@ async function verifyGoogleIdToken(idToken) {
   }
 }
 
-// MongoDB connection
-mongoose.connect(process.env.MONGODB_URI, {
+console.log('Mongo URI:', mongoURI);
+
+mongoose.connect(mongoURI, {
   useNewUrlParser: true,
   useUnifiedTopology: true
 }).then(() => {
@@ -152,8 +153,10 @@ app.get('/auth/google/callback', passport.authenticate('google', { failureRedire
 app.get('/api/auth/google/callback', passport.authenticate('google', {
   failureRedirect: '/login'
 }), (req, res) => {
-  // Successful authentication, redirect home.
   res.redirect('/');
+}, (err) => {
+  console.error('Authentication error:', err);
+  res.status(500).json({ error: 'Authentication failed' });
 });
 
 // User profile route
