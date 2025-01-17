@@ -5,7 +5,6 @@ const session = require('express-session');
 const passport = require('passport');
 const { Strategy: GoogleStrategy } = require('passport-google-oauth20');
 const fetch = require('node-fetch');
-const mongoose = require('mongoose');
 const { User, Memory, Person } = require('./models.js');
 const cors = require('cors');
 const fs = require('fs');
@@ -23,7 +22,6 @@ const CLIENT_SECRET = process.env.GOOGLE_CLIENT_SECRET;
 const FRONTEND_URL = process.env.FRONTEND_URL;
 const BACKEND_URL = process.env.BACKEND_URL;
 
-const mongoURI = process.env.MONGO_URI;
 
 // Create a function to handle file uploads to Vercel Blob
 async function uploadToVercelBlob(file) {
@@ -92,6 +90,29 @@ passport.deserializeUser(async (id, done) => {
   }
 });
 
+const mongoose = require('mongoose');
+
+const mongoURI = process.env.MONGO_URI || 'mongodb://localhost:27017/yourDatabaseName';
+
+mongoose.connect(mongoURI, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+    serverSelectionTimeoutMS: 30000, // Increase timeout to 30 seconds
+    socketTimeoutMS: 45000 // Increase socket timeout to 45 seconds
+});
+
+mongoose.connection.on('connected', () => {
+    console.log('Mongoose connected to ' + mongoURI);
+});
+
+mongoose.connection.on('error', (err) => {
+    console.log('Mongoose connection error: ' + err);
+});
+
+mongoose.connection.on('disconnected', () => {
+    console.log('Mongoose disconnected');
+});
+
 // In your route handler
 const handleUpload = async (req, res) => {
   if (!req.file) {
@@ -142,13 +163,6 @@ async function verifyGoogleIdToken(idToken) {
 
 console.log('Mongo URI:', mongoURI);
 
-mongoose.connect('mongodb://localhost:27017/', {
-  directConnection: true
-}).then(() => {
-  console.log('Connected to MongoDB');
-}).catch(err => {
-  console.error('Error connecting to MongoDB', err);
-});
 
 // Google authentication routes
 app.get('/api/auth/google', passport.authenticate('google', {
@@ -257,6 +271,7 @@ app.get('/', (req, res) => {
   }
 });
 
+
 // Create a new person
 app.post('/api/people', upload.single('photo'), async (req, res) => {
   const { name } = req.body;
@@ -276,11 +291,10 @@ app.post('/api/people', upload.single('photo'), async (req, res) => {
     const newPerson = new Person({
       name,
       profilePicture: photoUrl,
-      user: req.user._id,
+      user: req.user._id
     });
-
-    await newPerson.save();
-    res.status(201).json(newPerson);
+    const savedPerson = await newPerson.save();
+    res.status(201).json(savedPerson);
   } catch (error) {
     console.error('Error creating person:', error);
     res.status(500).json({ message: 'Error creating person', error: error.message });
@@ -392,9 +406,6 @@ app.post('/api/people/:id/memories', upload.single('photo'), async (req, res) =>
       return res.status(500).json({ message: 'Error uploading photo', error: error.message });
     }
   }
-  if (!title) {
-    return res.status(400).json({ message: 'Title is required' });
-  }
 
   try {
     const person = await Person.findOne({ _id: id, user: req.user._id });
@@ -404,7 +415,7 @@ app.post('/api/people/:id/memories', upload.single('photo'), async (req, res) =>
 
     const newMemory = {
       title,
-      photo,
+      photo: photoUrl,
       comments: comment ? [{ text: comment }] : []
     };
 
