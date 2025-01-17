@@ -44,7 +44,7 @@ const Login = () => {
   }, []);
 
   const handleGoogleLogin = () => {
-    router.push(`${BACKEND_URL}/auth/google`);
+    router.push(`/auth/google`);
   };
 
   if (loading) {
