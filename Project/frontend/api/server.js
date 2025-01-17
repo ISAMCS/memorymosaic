@@ -46,7 +46,7 @@ app.use(passport.session());
 passport.use(new GoogleStrategy({
   clientID: CLIENT_ID,
   clientSecret: CLIENT_SECRET,
-  callbackURL: `https://memorymosaic-hl0r1vqky-isamcs-projects.vercel.app/auth/google/callback`
+  callbackURL: `https://memorymosaic.vercel.app/api/auth/callback/google`
 }, async (accessToken, refreshToken, profile, done) => {
   try {
     let user = await User.findOne({ googleId: profile.id });
@@ -153,7 +153,7 @@ app.post('/api/auth/token', async (req, res) => {
     code,
     client_id: CLIENT_ID,
     client_secret: CLIENT_SECRET,
-    redirect_uri: 'https://memorymosaic-hl0r1vqky-isamcs-projects.vercel.app/auth/google/callback',
+    redirect_uri: 'https://memorymosaic.vercel.app/api/auth/callback/google',
     grant_type: 'authorization_code'
   });
 
