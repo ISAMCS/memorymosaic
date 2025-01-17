@@ -32,7 +32,7 @@ const EditPerson = () => {
 
   const fetchPeople = async () => {
     try {
-      const response = await fetch('http://localhost:3000/api/people', {
+      const response = await fetch('https://memorymosaic.vercel.app/api/people', {
         credentials: 'include',
       });
       if (!response.ok) {
@@ -95,7 +95,7 @@ const EditPerson = () => {
       formData.append('photo', memoryPhoto);
     }
     try {
-      const response = await fetch(`http://localhost:3000/api/people/${selectedPerson._id}/memories`, {
+      const response = await fetch(`https://memorymosaic.vercel.app/api/people/${selectedPerson._id}/memories`, {
         method: 'POST',
         credentials: 'include',
         body: formData,
@@ -119,7 +119,7 @@ const EditPerson = () => {
 
   const handleDeleteMemory = async (personId, memoryId) => {
     try {
-      const response = await fetch(`http://localhost:3000/api/people/${personId}/memories/${memoryId}`, {
+      const response = await fetch(`https://memorymosaic.vercel.app/api/people/${personId}/memories/${memoryId}`, {
         method: 'DELETE',
         credentials: 'include',
       });

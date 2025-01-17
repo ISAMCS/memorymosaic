@@ -8,7 +8,7 @@ import userImg from '../public/addUser.png';
 import LogoImg from '../public/Logo.png';
 import styles from './friends.module.css';
 
-const API_BASE_URL = 'http://localhost:3000';
+const API_BASE_URL = 'https://memorymosaic.vercel.app/api';
 
 const PersonIcon = ({ person, onDelete }) => {
   return (

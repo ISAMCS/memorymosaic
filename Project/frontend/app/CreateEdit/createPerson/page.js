@@ -15,7 +15,7 @@ const CreatePersonPage = () => {
     // Check if the user is authenticated
     const checkAuth = async () => {
       try {
-        const response = await fetch('http://localhost:3000/api/user-profile', {
+        const response = await fetch('https://memorymosaic.vercel.app/api/user-profile', {
           credentials: 'include'
         });
         if (response.ok) {
@@ -62,7 +62,7 @@ const CreatePersonPage = () => {
     }
 
     try {
-      const response = await fetch('http://localhost:3000/api/people', {
+      const response = await fetch('https://memorymosaic.vercel.app/api/people', {
         method: 'POST',
         body: formData,
         credentials: 'include'

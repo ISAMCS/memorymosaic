@@ -5,7 +5,7 @@ import styles from './ViewPerson.module.css';
 import Image from 'next/image';
 import LogoImg from '../public/Logo.png';
 
-const API_BASE_URL = 'http://localhost:3000';
+const API_BASE_URL = 'https://memorymosaic.vercel.app/api';
 
 const ViewPerson = () => {
   const [user, setUser] = useState(null);

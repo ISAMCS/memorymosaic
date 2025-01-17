@@ -6,7 +6,7 @@ import Image from 'next/image';
 import styles from './create.module.css';
 import LogoImg from '/public/Logo.png'; 
 
-const API_BASE_URL = 'http://localhost:3000';
+const API_BASE_URL = 'https://memorymosaic.vercel.app/api';
 
 export default function CreateEdit() {
   const [user, setUser] = useState(null);
