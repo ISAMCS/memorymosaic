@@ -12,6 +12,7 @@ import fs from 'fs';
 import path from 'path';
 import multer from 'multer';
 import { put } from '@vercel/blob';
+import MongoStore from 'connect-mongo';
 
 const app = express(); // Create an instance of the Express application
 const port = process.env.PORT || 3000;
@@ -32,12 +33,14 @@ async function uploadToVercelBlob(file) {
   return blob;
 }
 
-// Session middleware
+// Use express-session middleware
 app.use(session({
-  secret: 'your-secret-key', // Replace with your secret key
+  secret: 'your-secret-key',
   resave: false,
-  saveUninitialized: true,
-  cookie: { secure: false } // Set to true if using HTTPS
+  saveUninitialized: false,
+  store: MongoStore.create({
+    mongoUrl: 'your-mongodb-connection-string'
+  })
 }));
 
 // Configure CORS
@@ -104,7 +107,7 @@ const handleUpload = async (req, res) => {
   }
 };
 
-// Authentication middleware
+// Keep this declaration
 const isAuthenticated = (req, res, next) => {
   if (req.isAuthenticated()) {
     return next();
@@ -150,11 +153,12 @@ app.get('/auth/google/callback', passport.authenticate('google', { failureRedire
     res.redirect('/dashboard');
   }
 );
+
 app.get('/api/auth/google/callback', passport.authenticate('google', {
   failureRedirect: '/login'
 }), (req, res) => {
   res.redirect('/');
-}, (err) => {
+}, (err, req, res, next) => {
   console.error('Authentication error:', err);
   res.status(500).json({ error: 'Authentication failed' });
 });
