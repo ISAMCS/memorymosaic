@@ -133,10 +133,7 @@ async function verifyGoogleIdToken(idToken) {
 
 console.log('Mongo URI:', mongoURI);
 
-mongoose.connect(mongoURI, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true
-}).then(() => {
+mongoose.connect(mongoURI).then(() => {
   console.log('Connected to MongoDB');
 }).catch(err => {
   console.error('Error connecting to MongoDB', err);
