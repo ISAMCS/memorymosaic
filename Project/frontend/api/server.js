@@ -71,7 +71,7 @@ async (accessToken, refreshToken, profile, done) => {
     return done(err, null);
   }
 }));
-  
+
 passport.serializeUser((user, done) => done(null, user.id));
 
 passport.deserializeUser(async (id, done) => {
@@ -142,15 +142,31 @@ mongoose.connect('mongodb://localhost:27017/', {
 });
 
 // Google authentication routes
-app.get('/auth/google', passport.authenticate('google', {
+app.get('/api/auth/google', passport.authenticate('google', {
   scope: ['https://www.googleapis.com/auth/userinfo.email', 'https://www.googleapis.com/auth/userinfo.profile']
 }));
 
-app.get('/auth/google/callback', passport.authenticate('google', { failureRedirect: '/login' }),
-  (req, res) => {
-    res.redirect('/dashboard');
-  }
-);
+app.use((req, res, next) => {
+  if (!req.timedout) next();
+});
+
+app.get('/api/auth/google/callback', (req, res, next) => {
+  passport.authenticate('google', (err, user, info) => {
+    if (err) {
+      if (err.name === 'TimeoutError') {
+        return res.status(504).json({ error: 'Authentication request timed out' });
+      }
+      return next(err);
+    }
+    if (!user) {
+      return res.status(401).json({ error: 'Authentication failed' });
+    }
+    req.logIn(user, (err) => {
+      if (err) return next(err);
+      return res.redirect('/dashboard');
+    });
+  })(req, res, next);
+});
 
 app.get('/api/auth/google/callback', passport.authenticate('google', {
   failureRedirect: '/login'
