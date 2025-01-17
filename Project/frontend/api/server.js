@@ -14,7 +14,7 @@ const multer = require('multer');
 const { put } = require('@vercel/blob');
 const MongoStore = require('connect-mongo');
 
-const app = express(); // Create an instance of the Express application
+const app = express();
 const port = process.env.PORT || 3000;
 const upload = multer({ storage: multer.memoryStorage() });
 
@@ -42,6 +42,15 @@ app.use(session({
     mongoUrl: process.env.MONGO_URI // Use the environment variable
   })
 }));
+
+
+app.use((req, res, next) => {
+  res.setHeader("Permissions-Policy", "private-state-token-redemption=(self), private-state-token-issuance=(self), browsing-topics=()");
+  next();
+});
+
+app.use(passport.initialize()); // Initialize passport
+app.use(passport.session()); // Use passport session
 
 // Configure CORS
 app.use(cors({
