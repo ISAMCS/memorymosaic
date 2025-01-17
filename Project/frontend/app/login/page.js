@@ -42,9 +42,9 @@ const Login = () => {
 
     checkLoginStatus();
   }, []);
-
+  
   const handleGoogleLogin = () => {
-    router.push(`/auth/google`);
+    router.push(`https://memorymosaic.vercel.app/api/auth/google`);
   };
 
   if (loading) {
