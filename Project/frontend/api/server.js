@@ -39,21 +39,22 @@ app.use(session({
   resave: false,
   saveUninitialized: false,
   store: MongoStore.create({
-    mongoUrl: 'your-mongodb-connection-string'
+    mongoUrl: process.env.MONGO_URI // Use the environment variable
   })
 }));
+
 
 // Configure CORS
 app.use(cors({
   origin: ['https://memorymosaic.vercel.app'],
   methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
-  credentials: true // Allow credentials
+  credentials: true
 }));
 
 passport.use(new GoogleStrategy({
   clientID: CLIENT_ID,
   clientSecret: CLIENT_SECRET,
-  callbackURL: 'https://memorymosaic.vercel.app/api/auth/google/callback'
+  callbackURL: `${BACKEND_URL}/api/auth/google/callback`
 },
 async (accessToken, refreshToken, profile, done) => {
   try {
@@ -163,13 +164,18 @@ app.get('/api/auth/google/callback', passport.authenticate('google', {
   res.status(500).json({ error: 'Authentication failed' });
 });
 
-// User profile route
 app.get('/api/user-profile', (req, res) => {
   if (!req.isAuthenticated()) {
     return res.status(401).json({ error: 'Unauthorized' });
   }
-  res.json(req.user); // Send user data if authenticated
+  try {
+    res.json(req.user);
+  } catch (error) {
+    console.error('Error fetching user profile:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
 });
+
 
 app.get('/dashboard', (req, res) => {
   if (req.isAuthenticated()) {
@@ -212,13 +218,6 @@ app.post('/api/auth/token', async (req, res) => {
   }
 });
 
-app.get('/api/user-profile', (req, res) => {
-  if (!req.isAuthenticated()) {
-    return res.status(401).json({ error: 'Unauthorized' });
-  }
-  res.json(req.user);
-});
-
 app.get('/logout', (req, res) => {
   req.logout((err) => {
     if (err) {
@@ -243,27 +242,29 @@ app.post('/api/people', upload.single('photo'), async (req, res) => {
 
   if (req.file) {
     try {
-      photoUrl = await uploadToVercelBlob(req.file);
+      const blob = await uploadToVercelBlob(req.file);
+      photoUrl = blob.url;
     } catch (error) {
       console.error('Error uploading photo:', error);
       return res.status(500).json({ message: 'Error uploading photo', error: error.message });
     }
   }
-  const newPerson = new Person({
-    name,
-    photo: photoUrl,
-    user: req.user._id
-  });
+
   try {
-    const savedPerson = await newPerson.save();
-    console.log('Person created successfully:', savedPerson);
-    res.status(201).json(savedPerson);
+    const newPerson = new Person({
+      name,
+      profilePicture: photoUrl,
+      user: req.user._id,
+    });
+
+    await newPerson.save();
+    res.status(201).json(newPerson);
   } catch (error) {
     console.error('Error creating person:', error);
     res.status(500).json({ message: 'Error creating person', error: error.message });
   }
 });
-
+  
 app.delete('/api/people/:personId/memories/:memoryId', async (req, res) => {
   const { personId, memoryId } = req.params;
 
