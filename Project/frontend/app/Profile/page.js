@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import styles from './profile.module.css';
 
-const BACKEND_URL = process.env.BACKEND_URL
+const BACKEND_URL = 'https://memorymosaic-isamcs-projects.vercel.app/'
 
 const Profile = () => {
   const [user, setUser] = useState(null);
