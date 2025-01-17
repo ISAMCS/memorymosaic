@@ -14,7 +14,7 @@ import multer from 'multer';
 import { put } from '@vercel/blob';
 
 const app = express(); // Create an instance of the Express application
-const port = process.FRONTEND_URL;
+const port = process.env.PORT || 3000;
 const upload = multer({ storage: multer.memoryStorage() });
 
 const CLIENT_ID = process.env.GOOGLE_CLIENT_ID;
@@ -44,37 +44,38 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 passport.use(new GoogleStrategy({
-  clientID: CLIENT_ID,
-  clientSecret: CLIENT_SECRET,
-  callbackURL: `https://memorymosaic.vercel.app/api/auth/callback/google`
-}, async (accessToken, refreshToken, profile, done) => {
-  try {
-    let user = await User.findOne({ googleId: profile.id });
-    if (!user) {
-      user = new User({
-        googleId: profile.id,
-        name: profile.displayName,
-        email: profile.emails[0].value,
-        profilePhoto: profile.photos[0].value
-      });
-      await user.save();
+    clientID: CLIENT_ID,
+    clientSecret: CLIENT_SECRET,
+    callbackURL: 'https://memorymosaic.vercel.app/api/auth/callback/google'
+  },
+  async (accessToken, refreshToken, profile, done) => {
+    try {
+      let user = await User.findOne({ googleId: profile.id });
+      if (!user) {
+        user = new User({
+          googleId: profile.id,
+          name: profile.displayName,
+          email: profile.emails[0].value,
+          profilePhoto: profile.photos[0].value
+        });
+        await user.save();
+      }
+      return done(null, user);
+    } catch (err) {
+      return done(err, null);
     }
-    return done(null, user);
-  } catch (err) {
-    return done(err, null);
-  }
-}));
+  }));
+  
+  passport.serializeUser((user, done) => done(null, user.id));
 
-passport.serializeUser((user, done) => done(null, user.id));
-
-passport.deserializeUser(async (id, done) => {
-  try {
-    const user = await User.findById(id);
-    done(null, user);
-  } catch (err) {
-    done(err, null);
-  }
-});
+  passport.deserializeUser(async (id, done) => {
+    try {
+      const user = await User.findById(id);
+      done(null, user);
+    } catch (err) {
+      done(err, null);
+    }
+  });
 
 // In your route handler
 const handleUpload = async (req, res) => {
@@ -140,11 +141,26 @@ app.get('/auth/google', passport.authenticate('google', {
   scope: ['https://www.googleapis.com/auth/userinfo.email', 'https://www.googleapis.com/auth/userinfo.profile']
 }));
 
-app.get('/auth/google/callback', passport.authenticate('google', { failureRedirect: `${FRONTEND_URL}/login` }),
+app.get('/auth/google/callback', passport.authenticate('google', { failureRedirect: '/login' }),
   (req, res) => {
-    res.redirect(`${FRONTEND_URL}/dashboard`);
+    res.redirect('/dashboard');
   }
 );
+
+app.get('/api/user-profile', (req, res) => {
+  if (!req.isAuthenticated()) {
+    return res.status(401).json({ error: 'Unauthorized' });
+  }
+  res.json(req.user);
+});
+
+app.get('/dashboard', (req, res) => {
+  if (req.isAuthenticated()) {
+    res.redirect(`${FRONTEND_URL}/Profile`);
+  } else {
+    res.redirect('/auth/google');
+  }
+});
 
 app.post('/api/auth/token', async (req, res) => {
   const { code } = req.body;
@@ -185,15 +201,6 @@ app.get('/api/user-profile', (req, res) => {
   }
   res.json(req.user);
 });
-
-app.get('/dashboard', (req, res) => {
-  if (req.isAuthenticated()) {
-    res.redirect(`${FRONTEND_URL}/Profile`);
-  } else {
-    res.redirect('/auth/google');
-  }
-});
-
 
 app.get('/logout', (req, res) => {
   req.logout((err) => {
