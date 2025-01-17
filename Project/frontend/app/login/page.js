@@ -7,7 +7,7 @@ import Image from 'next/image';
 import LogoImg from '../public/Logo.png';
 import { useRouter } from 'next/navigation';
 
-const API_BASE_URL = 'https://memorymosaic-hl0r1vqky-isamcs-projects.vercel.app';
+const BACKEND_URL = process.env.BACKEND_URL;
 
 const Login = () => {
   const [user, setUser] = useState(null);
@@ -43,9 +43,8 @@ const Login = () => {
     checkLoginStatus();
   }, []);
 
-  // Handle Google login button click
   const handleGoogleLogin = () => {
-    router.push(`/auth/google`);
+    router.push(`${BACKEND_URL}/auth/google`);
   };
 
   if (loading) {

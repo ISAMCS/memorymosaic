@@ -46,7 +46,7 @@ app.use(passport.session());
 passport.use(new GoogleStrategy({
   clientID: CLIENT_ID,
   clientSecret: CLIENT_SECRET,
-  callbackURL: `${BACKEND_URL}/auth/google/callback`
+  callbackURL: `https://memorymosaic-hl0r1vqky-isamcs-projects.vercel.app/auth/google/callback`
 }, async (accessToken, refreshToken, profile, done) => {
   try {
     let user = await User.findOne({ googleId: profile.id });
