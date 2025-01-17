@@ -32,53 +32,54 @@ async function uploadToVercelBlob(file) {
   return blob;
 }
 
-// Use session middleware
+// Session middleware
 app.use(session({
-  secret: 'your-secret-key',
+  secret: 'your-secret-key', // Replace with your secret key
   resave: false,
   saveUninitialized: true,
-  cookie: { secure: true }
+  cookie: { secure: false } // Set to true if using HTTPS
 }));
 
-app.use(passport.initialize());
-app.use(passport.session());
-
-app.use(cors({ origin: 'https://memorymosaic.vercel.app' }));
-
+// Configure CORS
+app.use(cors({
+  origin: 'https://memorymosaic.vercel.app', // Your frontend URL
+  methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+  credentials: true // Allow credentials
+}));
 
 passport.use(new GoogleStrategy({
-    clientID: CLIENT_ID,
-    clientSecret: CLIENT_SECRET,
-    callbackURL: 'https://memorymosaic.vercel.app/api/auth/callback/google'
-  },
-  async (accessToken, refreshToken, profile, done) => {
-    try {
-      let user = await User.findOne({ googleId: profile.id });
-      if (!user) {
-        user = new User({
-          googleId: profile.id,
-          name: profile.displayName,
-          email: profile.emails[0].value,
-          profilePhoto: profile.photos[0].value
-        });
-        await user.save();
-      }
-      return done(null, user);
-    } catch (err) {
-      return done(err, null);
+  clientID: CLIENT_ID,
+  clientSecret: CLIENT_SECRET,
+  callbackURL: 'https://memorymosaic.vercel.app/api/auth/google/callback'
+},
+async (accessToken, refreshToken, profile, done) => {
+  try {
+    let user = await User.findOne({ googleId: profile.id });
+    if (!user) {
+      user = new User({
+        googleId: profile.id,
+        name: profile.displayName,
+        email: profile.emails[0].value,
+        profilePhoto: profile.photos[0].value
+      });
+      await user.save();
     }
-  }));
+    return done(null, user);
+  } catch (err) {
+    return done(err, null);
+  }
+}));
   
-  passport.serializeUser((user, done) => done(null, user.id));
+passport.serializeUser((user, done) => done(null, user.id));
 
-  passport.deserializeUser(async (id, done) => {
-    try {
-      const user = await User.findById(id);
-      done(null, user);
-    } catch (err) {
-      done(err, null);
-    }
-  });
+passport.deserializeUser(async (id, done) => {
+  try {
+    const user = await User.findById(id);
+    done(null, user);
+  } catch (err) {
+    done(err, null);
+  }
+});
 
 // In your route handler
 const handleUpload = async (req, res) => {
@@ -128,8 +129,8 @@ async function verifyGoogleIdToken(idToken) {
   }
 }
 
-// Mongoose connection setup
-mongoose.connect(mongoURI, {
+// MongoDB connection
+mongoose.connect(process.env.MONGODB_URI, {
   useNewUrlParser: true,
   useUnifiedTopology: true
 }).then(() => {
@@ -138,7 +139,6 @@ mongoose.connect(mongoURI, {
   console.error('Error connecting to MongoDB', err);
 });
 
-// Routes
 // Google authentication routes
 app.get('/auth/google', passport.authenticate('google', {
   scope: ['https://www.googleapis.com/auth/userinfo.email', 'https://www.googleapis.com/auth/userinfo.profile']
@@ -149,12 +149,19 @@ app.get('/auth/google/callback', passport.authenticate('google', { failureRedire
     res.redirect('/dashboard');
   }
 );
+app.get('/api/auth/google/callback', passport.authenticate('google', {
+  failureRedirect: '/login'
+}), (req, res) => {
+  // Successful authentication, redirect home.
+  res.redirect('/');
+});
 
+// User profile route
 app.get('/api/user-profile', (req, res) => {
   if (!req.isAuthenticated()) {
     return res.status(401).json({ error: 'Unauthorized' });
   }
-  res.json(req.user);
+  res.json(req.user); // Send user data if authenticated
 });
 
 app.get('/dashboard', (req, res) => {
@@ -172,7 +179,7 @@ app.post('/api/auth/token', async (req, res) => {
     code,
     client_id: CLIENT_ID,
     client_secret: CLIENT_SECRET,
-    redirect_uri: 'https://memorymosaic.vercel.app/api/auth/callback/google',
+    redirect_uri: 'https://memorymosaic.vercel.app/api/auth/google/callback',
     grant_type: 'authorization_code'
   });
 
