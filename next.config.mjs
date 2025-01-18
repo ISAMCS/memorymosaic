@@ -1,4 +1,4 @@
-module.exports = {
+export default {
   webpack: (config, { dev }) => {
     if (!dev) {
       config.optimization.minimize = false;
