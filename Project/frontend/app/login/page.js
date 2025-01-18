@@ -7,7 +7,7 @@ import Image from 'next/image';
 import LogoImg from '../public/Logo.png';
 import { useRouter } from 'next/navigation';
 
-const API_BASE_URL = 'https://memorymosaic.vercel.app/api';
+const API_BASE_URL = 'https://memorymosaic.vercel.app';
 
 const Login = () => {
   const [user, setUser] = useState(null);
