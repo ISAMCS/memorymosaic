@@ -1,7 +1,7 @@
 const dotenv = require('dotenv');
 dotenv.config();
 const { Strategy: GoogleStrategy } = require('passport-google-oauth20');
-const fetch = require('node-fetch');
+const fetch = (...args) => import('node-fetch').then(({default: fetch}) => fetch(...args));
 const { User, Memory, Person } = require('./models.js');
 const fs = require('fs');
 const path = require('path');
