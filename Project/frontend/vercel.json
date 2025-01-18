@@ -14,10 +14,17 @@
       "config": {
         "installCommand": "npm install --legacy-peer-deps"
       }
+    },
+    {
+      "src": "api/models.js",
+      "use": "@vercel/node",
+      "config": {
+        "installCommand": "npm install --legacy-peer-deps"
+      }
     }
   ],
   "routes": [
-    { "src": "/api/(.*)", "dest": "api/server.js" },
+    { "src": "/api/(.*)", "dest": "https://memorymosaic.vercel.app/api/$1" },
     { "src": "/model/(.*)", "dest": "api/models.js" },
     { "src": "/(.*)", "dest": "$1" }
   ],

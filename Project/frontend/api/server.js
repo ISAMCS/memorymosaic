@@ -12,12 +12,14 @@ dotenv.config();
 const port = process.env.PORT || 3000;
 const upload = multer({ storage: multer.memoryStorage() });
 
-const http = require('http');
-const express = require('express');
+
 const session = require('express-session');
 const MongoStore = require('connect-mongo');
 const passport = require('passport');
 const cors = require('cors');
+
+const express = require('express');
+const http = require('http');
 const app = express();
 
 const CLIENT_ID = process.env.GOOGLE_CLIENT_ID;
@@ -509,7 +511,7 @@ app.put('/api/user-profile', async (req, res) => {
   }
 });
 
-app.listen(port, () => {
+server.listen(port, () => {
   console.log(`Server is running on port ${port}`);
 });
 
