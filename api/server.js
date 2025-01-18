@@ -141,10 +141,7 @@ const isAuthenticated = (req, res, next) => {
   if (req.isAuthenticated()) {
     return next();
   }
-  res.status(401).json({ 
-    message: 'Authentication required',
-    redirectTo: '/api/auth/google'
-  });
+  res.redirect('/api/auth/google');
 };
 
 app.use('/api', isAuthenticated);
