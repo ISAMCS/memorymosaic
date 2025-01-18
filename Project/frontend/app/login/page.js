@@ -7,6 +7,8 @@ import Image from 'next/image';
 import LogoImg from '../public/Logo.png';
 import { useRouter } from 'next/navigation';
 
+const FRONTEND_URL = process.env.FRONTEND_URL;
+
 const Login = () => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
