@@ -45,7 +45,7 @@ app.use(session({
 }));
 
 app.use((req, res, next) => {
-  res.setHeader("Permissions-Policy", "private-state-token-redemption=(self), private-state-token-issuance=(self), browsing-topics=()");
+  res.setHeader("Permissions-Policy", "geolocation=(self), microphone=()");
   next();
 });
 
