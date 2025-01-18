@@ -1,5 +1,4 @@
 const dotenv = require('dotenv');
-dotenv.config();
 const { Strategy: GoogleStrategy } = require('passport-google-oauth20');
 const fetch = (...args) => import('node-fetch').then(({default: fetch}) => fetch(...args));
 const { User, Memory, Person } = require('./models.js');
@@ -7,6 +6,8 @@ const fs = require('fs');
 const path = require('path');
 const multer = require('multer');
 const { put } = require('@vercel/blob');
+
+dotenv.config();
 
 const port = process.env.PORT || 3000;
 const upload = multer({ storage: multer.memoryStorage() });
@@ -35,11 +36,11 @@ async function uploadToVercelBlob(file) {
 
 // Use express-session middleware
 app.use(session({
-  secret: 'your-secret-key',
+  secret: process.env.SESSION_SECRET,
   resave: false,
   saveUninitialized: false,
   store: MongoStore.create({
-    mongoUrl: process.env.MONGO_URI // Use the environment variable
+    mongoUrl: process.env.MONGO_URI
   })
 }));
 
@@ -48,21 +49,21 @@ app.use((req, res, next) => {
   next();
 });
 
-app.use(passport.initialize()); // Initialize passport
-app.use(passport.session()); // Use passport session
+app.use(passport.initialize());
+app.use(passport.session());
 
 // Configure CORS
 app.use(cors({
-  origin: ['https://memorymosaic.vercel.app', 'https://memorymosaic.vercel.app/api'],
+  origin: [FRONTEND_URL, BACKEND_URL],
   methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+  credentials: true
 }));
 
 passport.use(new GoogleStrategy({
   clientID: CLIENT_ID,
   clientSecret: CLIENT_SECRET,
   callbackURL: `${BACKEND_URL}/auth/google/callback`
-},
-async (accessToken, refreshToken, profile, done) => {
+}, async (accessToken, refreshToken, profile, done) => {
   try {
     let user = await User.findOne({ googleId: profile.id });
     if (!user) {
@@ -194,23 +195,14 @@ app.get('/api/auth/google/callback', passport.authenticate('google', {
   failureRedirect: '/login'
 }), (req, res) => {
   res.redirect('/');
-}, (err, req, res, next) => {
-  console.error('Authentication error:', err);
-  res.status(500).json({ error: 'Authentication failed' });
 });
 
 app.get('/api/user-profile', (req, res) => {
   if (!req.isAuthenticated()) {
     return res.status(401).json({ error: 'Unauthorized' });
   }
-  try {
-    res.json(req.user);
-  } catch (error) {
-    console.error('Error fetching user profile:', error);
-    res.status(500).json({ error: 'Internal server error' });
-  }
+  res.json(req.user);
 });
-
 
 app.get('/dashboard', (req, res) => {
   if (req.isAuthenticated()) {
@@ -517,6 +509,8 @@ app.put('/api/user-profile', async (req, res) => {
   }
 });
 
-const server = http.createServer(app);
+app.listen(port, () => {
+  console.log(`Server is running on port ${port}`);
+});
 
-module.exports = server;
+module.exports = app;
