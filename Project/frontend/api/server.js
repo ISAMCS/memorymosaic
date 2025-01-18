@@ -14,20 +14,20 @@ const upload = multer({ storage: multer.memoryStorage() });
 
 const REDIRECT_URL = process.env.REDIRECT_URL;
 
+const express = require('express');
+const http = require('http');
 const session = require('express-session');
 const MongoStore = require('connect-mongo');
 const passport = require('passport');
 const cors = require('cors');
 
-const express = require('express');
-const http = require('http');
 const app = express();
+const server = http.createServer(app);
 
 const CLIENT_ID = process.env.GOOGLE_CLIENT_ID;
 const CLIENT_SECRET = process.env.GOOGLE_CLIENT_SECRET;
 const FRONTEND_URL = process.env.FRONTEND_URL;
 const BACKEND_URL = process.env.BACKEND_URL;
-
 
 // Create a function to handle file uploads to Vercel Blob
 async function uploadToVercelBlob(file) {
@@ -37,7 +37,7 @@ async function uploadToVercelBlob(file) {
   return blob;
 }
 
-// Use express-session middleware
+// Use express-oon middleware
 app.use(session({
   secret: process.env.SESSION_SECRET,
   resave: false,
@@ -46,6 +46,11 @@ app.use(session({
     mongoUrl: process.env.MONGO_URI
   })
 }));
+
+app.use((req, res, next) => {
+  res.setHeader("Permissions-Policy", "geolocation=(self), microphone=()");
+  next();
+});
 
 app.use((req, res, next) => {
   res.setHeader("Permissions-Policy", "geolocation=(self), microphone=()");
