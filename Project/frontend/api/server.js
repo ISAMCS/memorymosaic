@@ -52,7 +52,7 @@ app.use(passport.session()); // Use passport session
 
 // Configure CORS
 app.use(cors({
-  origin: 'https://memorymosaic.vercel.app',
+  origin: ['https://memorymosaic.vercel.app', 'https://memorymosaic.vercel.app/api'],
   methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
 }));
 
