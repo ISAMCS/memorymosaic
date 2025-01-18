@@ -12,6 +12,7 @@ dotenv.config();
 const port = process.env.PORT || 3000;
 const upload = multer({ storage: multer.memoryStorage() });
 
+const REDIRECT_URL = process.env.REDIRECT_URL;
 
 const session = require('express-session');
 const MongoStore = require('connect-mongo');
@@ -64,7 +65,7 @@ app.use(cors({
 passport.use(new GoogleStrategy({
   clientID: CLIENT_ID,
   clientSecret: CLIENT_SECRET,
-  callbackURL: `${BACKEND_URL}/auth/google/callback`
+  callbackURL: REDIRECT_URL,
 }, async (accessToken, refreshToken, profile, done) => {
   try {
     let user = await User.findOne({ googleId: profile.id });
@@ -221,7 +222,7 @@ app.post('/api/auth/token', async (req, res) => {
     code,
     client_id: CLIENT_ID,
     client_secret: CLIENT_SECRET,
-    redirect_uri: 'https://memorymosaic.vercel.app/api/auth/google/callback',
+    redirect_uri: REDIRECT_URL,
     grant_type: 'authorization_code'
   });
 
