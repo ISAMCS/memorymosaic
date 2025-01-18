@@ -52,8 +52,9 @@ app.use(passport.session()); // Use passport session
 
 // Configure CORS
 app.use(cors({
-  origin: ['https://memorymosaic.vercel.app'],
+  origin: 'https://memorymosaic.vercel.app',
   methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+  credentials: true,
 }));
 
 passport.use(new GoogleStrategy({
@@ -518,9 +519,6 @@ app.put('/api/user-profile', async (req, res) => {
   }
 });
 
+const { createServer } = require('@vercel/node');
 
-app.listen(port, () => {
-  console.log(`Server is running on port ${port}`);
-});
-
-module.exports = app;
+module.exports = createServer(app);
