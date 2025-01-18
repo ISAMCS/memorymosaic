@@ -16,7 +16,7 @@ const Login = () => {
   useEffect(() => {
     const checkLoginStatus = async () => {
       try {
-        const response = await fetch(`api/user-profile`, {
+        const response = await fetch(`${FRONTEND_URL}/api/user-profile`, {
           method: 'GET',
           credentials: 'include',
           headers: {
@@ -41,10 +41,10 @@ const Login = () => {
     checkLoginStatus();
   }, []);
 
-  // Handle Google login button click
   const handleGoogleLogin = () => {
-    window.location.href = `api/auth/google`;
+    window.location.href = `${FRONTEND_URL}/api/auth/google`;
   };
+  
 
   if (loading) {
     return <div>Loading...</div>;

@@ -44,7 +44,11 @@ app.use(session({
   saveUninitialized: false,
   store: MongoStore.create({
     mongoUrl: process.env.MONGO_URI
-  })
+  }),
+  cookie: {
+    secure: process.env.NODE_ENV === 'production',
+    maxAge: 24 * 60 * 60 * 1000 // 24 hours
+  }
 }));
 
 app.use((req, res, next) => {
@@ -55,12 +59,13 @@ app.use((req, res, next) => {
 app.use(passport.initialize());
 app.use(passport.session());
 
-// Configure CORS
+// Update CORS configuration
 app.use(cors({
-  origin: [FRONTEND_URL, BACKEND_URL],
-  methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
-  credentials: true
+  origin: process.env.FRONTEND_URL,
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS']
 }));
+
 
 passport.use(new GoogleStrategy({
   clientID: process.env.GOOGLE_CLIENT_ID,
@@ -138,12 +143,14 @@ const handleUpload = async (req, res) => {
   }
 };
 
-// Keep this declaration
 const isAuthenticated = (req, res, next) => {
   if (req.isAuthenticated()) {
     return next();
   }
-  res.status(401).json({ message: 'Unauthorized' });
+  res.status(401).json({ 
+    message: 'Authentication required',
+    redirectTo: '/api/auth/google'
+  });
 };
 
 // Apply authentication middleware to all /api routes
@@ -189,6 +196,9 @@ app.get('/api/auth/google/callback', passport.authenticate('google', {
 });
 
 app.get('/api/user-profile', isAuthenticated, (req, res) => {
+  if (!req.user) {
+    return res.status(401).json({ message: 'User not found' });
+  }
   res.json(req.user);
 });
 
