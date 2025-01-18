@@ -54,7 +54,6 @@ app.use(passport.session()); // Use passport session
 app.use(cors({
   origin: 'https://memorymosaic.vercel.app',
   methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
-  credentials: true,
 }));
 
 passport.use(new GoogleStrategy({
