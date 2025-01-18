@@ -1,5 +1,42 @@
 {
+  "name": "memorymosaic",
+  "version": "1.0.0",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "dev:backend": "node api/server.js && node api/models.js",
+    "test": "jest",
+    "dev:full": "concurrently \"npm run dev\" \"npm run dev:backend\""
+  },
+  "dependencies": {
+    "@react-oauth/google": "^0.7.0",
+    "@vercel/blob": "^0.27.1",
+    "connect-mongo": "^5.1.0",
+    "cors": "^2.8.5",
+    "dotenv": "^16.0.0",
+    "express": "^4.18.0",
+    "express-session": "^1.18.1",
+    "mongoose": "^8.9.5",
+    "multer": "^1.4.5-lts.1",
+    "next": "^15.1.5",
+    "node-fetch": "^3.3.2",
+    "passport": "^0.7.0",
+    "passport-google-oauth20": "^2.0.0",
+    "prop-types": "^15.8.1",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
+  },
+  "author": "Isabella",
+  "license": "ISC",
+  "devDependencies": {
+    "@babel/core": "^7.26.0",
+    "@babel/eslint-parser": "^7.26.0",
+    "@types/node": "22.10.7",
+    "@types/react": "19.0.7",
+    "typescript": "5.7.3"
+  },
   "engines": {
-    "node": "22.x"
+    "node": ">=23.1.0"
   }
 }
