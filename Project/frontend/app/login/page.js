@@ -7,8 +7,7 @@ import Image from 'next/image';
 import LogoImg from '../public/Logo.png';
 import { useRouter } from 'next/navigation';
 
-const FRONTEND_URL = process.env.FRONTEND_URL;
-
+const FRONTEND_URL = process.env.NEXT_PUBLIC_FRONTEND_URL || 'https://memorymosaic.vercel.app';
 const Login = () => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -46,6 +45,7 @@ const Login = () => {
   const handleGoogleLogin = () => {
     router.push(`${FRONTEND_URL}/auth/google`);
   };
+  
 
   if (loading) {
     return <div>Loading...</div>;
