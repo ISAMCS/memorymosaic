@@ -14,7 +14,6 @@ const API_BASE_URL = 'https://memorymosaic.vercel.app/api';
 const PersonIcon = ({ person, onDelete }) => (
   <div className={styles.userIcon}>
     <div className={styles.imageContainer}>
-      <Navbar />
       {person.profilePicture ? (
         <Image
           src={`${API_BASE_URL}${person.profilePicture.replace(API_BASE_URL, '')}`}
@@ -130,6 +129,7 @@ const App = () => {
         <div className={styles.app}>
           <div className={styles.loginBox}>
             <div className={styles.logoContainer}>
+             <Navbar />
               <Image src={LogoImg} alt="Memory Mosaic Logo" className={styles.logo} />
               <h1 className={styles.title}>Memory Mosaic</h1>
             </div>
@@ -149,6 +149,7 @@ const App = () => {
     <div className={styles.background}>
       <div className={styles.app}>
         <div className={styles.carousel}>
+         <Navbar />
           <button className={styles.arrowButton} onClick={prevPerson}>&lt;</button>
           <div className={styles.carouselContent}>
             {currentIndex < people.length ? (

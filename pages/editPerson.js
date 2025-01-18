@@ -85,7 +85,7 @@ const EditPerson = () => {
   return (
     <div className={styles.container}>
       <div className={styles.profileContainer}>
-        <Navbar />
+       <Navbar />
         {Array.isArray(people) && people.length > 0 ? (
           people.map(person => (
             <div key={person._id} className={styles.profileWrapper} onClick={() => handlePersonClick(person)}>

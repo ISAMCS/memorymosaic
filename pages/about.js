@@ -8,7 +8,7 @@ import kevinHeadshot from "../public/kevinHeadshot.png"
 import arwenHeadshot from "../public/arwenHeadshot.png"
 import yutakaHeadshot from "../public/yutakaHeadshot.png"
 import muhaisHeadshot from "../public/muhaisHeadshot.png"
-import Navbar from "../components/Navbar"; 
+import Navbar from "../components/navbar"; 
  
 export default function AboutPage() {
     return (
@@ -17,7 +17,7 @@ export default function AboutPage() {
           <div className= {styles.text}>
             <h1 className = {styles.ourTeam}> Meet the Team</h1>
             <div className = {styles.table}>
-                  <Navbar />
+              <Navbar />
               <div className = {`${styles.div1} ${styles.cells}`}>
                 <Image alt="headshot" src={arwenHeadshot} className = {styles.headshot}/>
                 <p className = {styles.name}>Arwen Louie </p>

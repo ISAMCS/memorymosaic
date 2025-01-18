@@ -95,7 +95,7 @@ const CreatePersonPage = () => {
 
   return (
     <div className={styles.container}>
-       <Navbar />
+     <Navbar />
       <form onSubmit={handleSubmit} className={styles.form}>
         <div className={`${styles.uploadCircle} ${preview ? styles.hasImage : ''}`}>
           <input type="file" onChange={handlePhotoChange} accept="image/*" />
