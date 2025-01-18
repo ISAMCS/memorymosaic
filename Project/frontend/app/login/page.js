@@ -44,9 +44,8 @@ const Login = () => {
   }, []);
 
   const handleGoogleLogin = () => {
-    window.location.href = `${FRONTEND_URL}/api/auth/google`;
+    router.push(`${FRONTEND_URL}/auth/google`);
   };
-  
 
   if (loading) {
     return <div>Loading...</div>;
