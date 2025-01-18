@@ -1,21 +1,23 @@
 const dotenv = require('dotenv');
 dotenv.config();
-const express = require('express');
-const session = require('express-session');
-const passport = require('passport');
 const { Strategy: GoogleStrategy } = require('passport-google-oauth20');
 const fetch = require('node-fetch');
 const { User, Memory, Person } = require('./models.js');
-const cors = require('cors');
 const fs = require('fs');
 const path = require('path');
 const multer = require('multer');
 const { put } = require('@vercel/blob');
-const MongoStore = require('connect-mongo');
 
-const app = express();
 const port = process.env.PORT || 3000;
 const upload = multer({ storage: multer.memoryStorage() });
+
+const http = require('http');
+const express = require('express');
+const session = require('express-session');
+const MongoStore = require('connect-mongo');
+const passport = require('passport');
+const cors = require('cors');
+const app = express();
 
 const CLIENT_ID = process.env.GOOGLE_CLIENT_ID;
 const CLIENT_SECRET = process.env.GOOGLE_CLIENT_SECRET;
@@ -40,7 +42,6 @@ app.use(session({
     mongoUrl: process.env.MONGO_URI // Use the environment variable
   })
 }));
-
 
 app.use((req, res, next) => {
   res.setHeader("Permissions-Policy", "private-state-token-redemption=(self), private-state-token-issuance=(self), browsing-topics=()");
@@ -95,8 +96,6 @@ const mongoose = require('mongoose');
 const mongoURI = process.env.MONGO_URI || 'mongodb://localhost:27017/yourDatabaseName';
 
 mongoose.connect(mongoURI, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
     serverSelectionTimeoutMS: 30000, // Increase timeout to 30 seconds
     socketTimeoutMS: 45000 // Increase socket timeout to 45 seconds
 });
@@ -518,6 +517,6 @@ app.put('/api/user-profile', async (req, res) => {
   }
 });
 
-const { createServer } = require('@vercel/node');
+const server = http.createServer(app);
 
-module.exports = createServer(app);
+module.exports = server;
