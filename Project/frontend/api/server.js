@@ -501,4 +501,6 @@ server.listen(port, () => {
   console.log(`Server is running on port ${port}`);
 });
 
-module.exports = { isAuthenticated };
+module.exports = (req, res) => {
+  app(req, res);
+};
