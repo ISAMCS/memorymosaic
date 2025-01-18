@@ -43,7 +43,7 @@ const Login = () => {
   }, []);
 
   const handleGoogleLogin = () => {
-    router.push(`${FRONTEND_URL}/auth/google`);
+    router.push(`${FRONTEND_URL}/api/auth/google`);
   };
   
 
