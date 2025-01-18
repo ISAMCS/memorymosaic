@@ -1,11 +1,12 @@
 {
   "name": "memorymosaic",
   "version": "1.0.0",
+  "type": "module",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "dev:backend": "node api/server.js && node api/models.js",
+    "dev:backend": "node api/server.mjs && node api/models.mjs",
     "test": "jest",
     "dev:full": "concurrently \"npm run dev\" \"npm run dev:backend\""
   },

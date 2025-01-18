@@ -1,7 +1,7 @@
 import dotenv from 'dotenv';
 import { Strategy as GoogleStrategy } from 'passport-google-oauth20';
 import fetch from 'node-fetch';
-import { User, Memory, Person } from './models.js';
+import { User, Memory, Person } from './models.mjs';
 import fs from 'fs';
 import path from 'path';
 import multer from 'multer';
