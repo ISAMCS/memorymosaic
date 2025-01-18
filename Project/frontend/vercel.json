@@ -2,32 +2,15 @@
   "version": 2,
   "builds": [
     {
-      "src": "package.json",
-      "use": "@vercel/next",
-      "config": {
-        "installCommand": "npm install --legacy-peer-deps"
-      }
-    },
-    {
-      "src": "api/server.js",
-      "use": "@vercel/node",
-      "config": {
-        "installCommand": "npm install --legacy-peer-deps"
-      }
-    },
-    {
-      "src": "api/models.js",
-      "use": "@vercel/node",
-      "config": {
-        "installCommand": "npm install --legacy-peer-deps"
-      }
+      "src": "api/**/*.js",
+      "use": "@vercel/node"
     }
   ],
-"routes": [
-  { "src": "/api/(.*)", "dest": "https://memorymosaic.vercel.app/api/$1" },
-  { "src": "/model/(.*)", "dest": "api/models.js" },
-  { "src": "/(.*)", "dest": "$1" }
-],
+  "routes": [
+    { "src": "/api/(.*)", "dest": "/api/$1" },
+    { "src": "/model/(.*)", "dest": "api/models.js" },
+    { "src": "/(.*)", "dest": "$1" }
+  ],
   "env": {
     "NODE_ENV": "production"
   }

@@ -15,7 +15,6 @@ const upload = multer({ storage: multer.memoryStorage() });
 const REDIRECT_URL = process.env.REDIRECT_URL;
 
 const express = require('express');
-const http = require('http');
 const session = require('express-session');
 const MongoStore = require('connect-mongo');
 const passport = require('passport');
@@ -52,11 +51,6 @@ app.use((req, res, next) => {
   next();
 });
 
-app.use((req, res, next) => {
-  res.setHeader("Permissions-Policy", "geolocation=(self), microphone=()");
-  next();
-});
-
 app.use(passport.initialize());
 app.use(passport.session());
 
@@ -68,9 +62,9 @@ app.use(cors({
 }));
 
 passport.use(new GoogleStrategy({
-  clientID: CLIENT_ID,
-  clientSecret: CLIENT_SECRET,
-  callbackURL: REDIRECT_URL,
+  clientID: process.env.GOOGLE_CLIENT_ID,
+  clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+  callbackURL: process.env.REDIRECT_URL,
 }, async (accessToken, refreshToken, profile, done) => {
   try {
     let user = await User.findOne({ googleId: profile.id });
@@ -90,7 +84,6 @@ passport.use(new GoogleStrategy({
 }));
 
 passport.serializeUser((user, done) => done(null, user.id));
-
 passport.deserializeUser(async (id, done) => {
   try {
     const user = await User.findById(id);
@@ -173,30 +166,19 @@ console.log('Mongo URI:', mongoURI);
 
 
 // Google authentication routes
+
 app.get('/api/auth/google', passport.authenticate('google', {
   scope: ['https://www.googleapis.com/auth/userinfo.email', 'https://www.googleapis.com/auth/userinfo.profile']
 }));
 
-app.use((req, res, next) => {
-  if (!req.timedout) next();
+app.get('/api/auth/google/callback', passport.authenticate('google', {
+  failureRedirect: '/login'
+}), (req, res) => {
+  res.redirect('/');
 });
 
-app.get('/api/auth/google/callback', (req, res, next) => {
-  passport.authenticate('google', (err, user, info) => {
-    if (err) {
-      if (err.name === 'TimeoutError') {
-        return res.status(504).json({ error: 'Authentication request timed out' });
-      }
-      return next(err);
-    }
-    if (!user) {
-      return res.status(401).json({ error: 'Authentication failed' });
-    }
-    req.logIn(user, (err) => {
-      if (err) return next(err);
-      return res.redirect('/dashboard');
-    });
-  })(req, res, next);
+app.use((req, res, next) => {
+  if (!req.timedout) next();
 });
 
 app.get('/api/auth/google/callback', passport.authenticate('google', {
@@ -205,10 +187,7 @@ app.get('/api/auth/google/callback', passport.authenticate('google', {
   res.redirect('/');
 });
 
-app.get('/api/user-profile', (req, res) => {
-  if (!req.isAuthenticated()) {
-    return res.status(401).json({ error: 'Unauthorized' });
-  }
+app.get('/api/user-profile', isAuthenticated, (req, res) => {
   res.json(req.user);
 });
 
@@ -521,4 +500,4 @@ server.listen(port, () => {
   console.log(`Server is running on port ${port}`);
 });
 
-module.exports = app;
+module.exports = { isAuthenticated };

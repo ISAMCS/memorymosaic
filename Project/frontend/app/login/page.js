@@ -7,8 +7,6 @@ import Image from 'next/image';
 import LogoImg from '../public/Logo.png';
 import { useRouter } from 'next/navigation';
 
-const API_BASE_URL = 'https://memorymosaic.vercel.app/api';
-
 const Login = () => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -18,7 +16,7 @@ const Login = () => {
   useEffect(() => {
     const checkLoginStatus = async () => {
       try {
-        const response = await fetch(`${API_BASE_URL}/user-profile`, {
+        const response = await fetch(`api/user-profile`, {
           method: 'GET',
           credentials: 'include',
           headers: {
@@ -45,7 +43,7 @@ const Login = () => {
 
   // Handle Google login button click
   const handleGoogleLogin = () => {
-    window.location.href = `${API_BASE_URL}/auth/google`;
+    window.location.href = `api/auth/google`;
   };
 
   if (loading) {
