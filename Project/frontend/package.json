@@ -30,6 +30,7 @@
   "devDependencies": {
     "@babel/core": "^7.26.0",
     "@babel/eslint-parser": "^7.26.0",
+    "@types/node": "22.10.7",
     "@types/react": "19.0.7",
     "concurrently": "^9.1.2",
     "typescript": "5.7.3"

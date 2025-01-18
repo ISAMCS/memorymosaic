@@ -59,7 +59,7 @@ app.use(cors({
 passport.use(new GoogleStrategy({
   clientID: CLIENT_ID,
   clientSecret: CLIENT_SECRET,
-  callbackURL: `${BACKEND_URL}/api/auth/google/callback`
+  callbackURL: `${BACKEND_URL}/auth/google/callback`
 },
 async (accessToken, refreshToken, profile, done) => {
   try {
