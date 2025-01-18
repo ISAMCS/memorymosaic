@@ -23,11 +23,11 @@
       }
     }
   ],
-  "routes": [
-    { "src": "/api/(.*)", "dest": "https://memorymosaic.vercel.app/api/$1" },
-    { "src": "/model/(.*)", "dest": "api/models.js" },
-    { "src": "/(.*)", "dest": "$1" }
-  ],
+"routes": [
+  { "src": "/api/(.*)", "dest": "https://memorymosaic.vercel.app/api/$1" },
+  { "src": "/model/(.*)", "dest": "api/models.js" },
+  { "src": "/(.*)", "dest": "$1" }
+],
   "env": {
     "NODE_ENV": "production"
   }
