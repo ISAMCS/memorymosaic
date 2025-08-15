@@ -34,12 +34,36 @@
 
 .loginBox {
   background-color: rgba(203, 159, 97, 0.833);
-  border-radius: 8px;
-  padding: 40px;
-  text-align: center;
-  max-width: 400px;
-  margin: auto;
+  border-radius: 100%; /* Make it circular */
+  width: 500px; /* Ensure the width and height are equal to make it a circle */
+  height: 500px;
+  position: absolute; /* Position it absolutely */
+  top: 50%; /* Center it vertically */
+  left: 50%; /* Center it horizontally */
+  transform: translate(-50%, -50%); /* Adjust position to be truly centered */
+  z-index: 1; /* Lower z-index to be behind other elements */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
 }
+
+.box {
+  background-color: rgba(158, 118, 61, 0.718); /* Lighter golden yellow color */
+  border-radius: 100%; /* Make it circular */
+  width: 500px; /* Ensure the width and height are equal to make it a circle */
+  height: 500px;
+  position: absolute; /* Position it absolutely */
+  top: 50%; /* Center it vertically */
+  left: 50%; /* Center it horizontally */
+  transform: translate(-50%, -50%); /* Adjust position to be truly centered */
+  z-index: 1; /* Lower z-index to be behind other elements */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
 
 .logoContainer {
   margin-bottom: 20px;

@@ -1,83 +1,66 @@
-.photo {
-    background-image: url(../public/dog.jpg);
-    height: 100vh;
-    background-position: center top;
-    background-repeat: no-repeat;
-    background-size: cover;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-  
-  .box {
-    font-family: 'Roboto', arial, sans-serif;
-    width: 400px;
-    background-color: rgba(229, 187, 127, 0.75);
-    border-radius: 10px;
-    padding: 30px;
-    color: #ffffff;
-    text-align: center;
-  }
-  
-  .alreadyLoggedInContainer {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
-  
-  
-  .message {
-    font-family: 'Times New Roman';
-    color: #ffffff;
-    font-size: 1.8rem;
-    margin-bottom: 10px;
-  }
-  
-  .googleButtonContainer {
-    width: 100%;
-    display: flex;
-    justify-content: center;
-  }
-  
-  .gsi-material-button {
-    width: auto;
-    max-width: 300px;
-  }
+.container {
+  width: 100%;
+  max-width: 1200px;
+  padding: 20px;
+  box-sizing: border-box;
+}  
 
-  .google-sign-in-text {
+.alreadyLoggedInContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.message {
+  font-family: 'Times New Roman';
+  color: #ffffff;
+  font-size: 1.8rem;
+  margin-bottom: 10px;
+}
+
+.googleButtonContainer {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.gsi-material-button {
+  width: auto;
+  max-width: 300px;
+}
+
+.google-sign-in-text {
   font-family: "Times New Roman", Times, serif;
   font-size: 14px;  /* Adjust the size as needed */
   font-weight: 500; /* Adjust the weight as needed */
+  color: #ffffff;
 }
 
-  .background {
-    background-image: url(../public/dog.jpg);
-    height: 100vh;
-    background-attachment: fixed;
-    background-position: center top;
-    background-repeat: no-repeat;
-    background-size: cover;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+.background {
+  background-image: url(../public/dog.jpg);
+  background-attachment: fixed;
+  background-position: center top;
+  background-repeat: no-repeat;
+  background-size: cover;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  position: relative;
+  z-index: 0; /* Ensure it is behind other elements */
 }
 
 .app {
-    padding-top: 5%;
-    padding-left: 2%;
-    padding-right: 2%;
-    text-align: center;
-    width: 100%;
-    max-width: 1200px;
-}
-
-.loginBox {
-  background-color: rgba(203, 159, 97, 0.833);
-  border-radius: 8px;
-  padding: 40px;
+  padding-top: 5%;
+  padding-left: 2%;
+  padding-right: 2%;
   text-align: center;
-  max-width: 400px;
-  margin: auto;
+  width: 100%;
+  max-width: 1200px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
 }
 
 .logoContainer {
@@ -85,16 +68,18 @@
 }
 
 .logo {
-    width: 100px;
-    height: 100px;
-    margin-bottom: 10px;
+  width: 100px;
+  height: 100px;
+  margin-bottom: 10px;
 }
 
 .title {
-    font-family: 'Times New Roman', serif;
-    color: #fff9f9;
-    font-size: 2.5rem;
-    margin-bottom: 20px;
+  font-family: 'Times New Roman', serif;
+  color: #ffffff;
+  font-size: 2.5rem;
+  margin-bottom: 20px;
+  text-shadow: #ffffff;
+  text-shadow: 2px 2px 4px rgba(255, 255, 255, 0.5);
 }
 
 .subMessage {
@@ -102,4 +87,24 @@
   color: #eeeeee;
   font-size: 1.2rem;
   margin-bottom: 20px;
+}
+
+.box {
+  background-color: rgba(203, 159, 97, 0.833);
+  border-radius: 100%; /* Make it circular */
+  width: 500px; /* Ensure the width and height are equal to make it a circle */
+  height: 500px;
+  position: absolute; /* Position it absolutely */
+  top: 50%; /* Center it vertically */
+  left: 50%; /* Center it horizontally */
+  transform: translate(-50%, -50%); /* Adjust position to be truly centered */
+  z-index: 1; /* Lower z-index to be behind other elements */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.logoContainer, .logo, .message, .subMessage, .googleButtonContainer {
+  z-index: 2; /* Higher z-index to be above the box */
 }

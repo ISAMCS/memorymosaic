@@ -3,6 +3,9 @@
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import styles from '../styles/createPerson.module.css';
+import Loading from '../components/loading';
+
+const API_BASE_URL = "http://localhost:3000";
 
 const CreatePersonPage = () => {
   const [person, setPerson] = useState({ name: '', photo: null });
@@ -10,11 +13,12 @@ const CreatePersonPage = () => {
   const [error, setError] = useState(null);
   const [user, setUser] = useState(null);
   const router = useRouter();
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const checkLoginStatus = async () => {
       try {
-        const response = await fetch(`/api/user-profile`, {
+        const response = await fetch(`${API_BASE_URL}/api/user-profile`, {
           method: 'GET',
           credentials: 'include',
           headers: { 'Content-Type': 'application/json' },
@@ -22,12 +26,15 @@ const CreatePersonPage = () => {
         if (response.ok) {
           const userData = await response.json();
           setUser(userData);
+          setLoading(false);
         } else {
           setUser(null);
+          setLoading(false);
         }
       } catch (error) {
         console.error('Error checking login status:', error);
         setUser(null);
+        setLoading(false);
       }
     };
     checkLoginStatus();
@@ -56,7 +63,7 @@ const CreatePersonPage = () => {
     }
 
     try {
-      const response = await fetch(`/api/people`, {
+      const response = await fetch(`${API_BASE_URL}/api/people`, {
         method: 'POST',
         body: formData,
         credentials: 'include'
@@ -80,6 +87,10 @@ const CreatePersonPage = () => {
       console.error('Error creating person:', error.message);
       setError(`Failed to create person: ${error.message}`);
     }
+  }
+
+  if (loading) {
+    return <Loading />;
   }
 
   return (

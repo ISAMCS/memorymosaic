@@ -1,4 +1,3 @@
-
 .background {
   background-image: url(../public/aboutpage.png);
   height: 100vh;
@@ -11,31 +10,117 @@
   align-items: center;
 }
 
+.carousel {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 80vh; /* Increase the height of the carousel */
+  width: 100%;
+}
+
+.carouselContent {
+  width: 600px; /* Increase the width of the carousel content */
+  height: 600px; /* Increase the height of the carousel content */
+  margin: 0 40px; /* Increase margin to give more space for arrow buttons */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.userIcon {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: #e5bb7fbb;
+  border-radius: 16px; /* Increase border radius for a softer look */
+  padding: 30px; /* Increase padding */
+  box-sizing: border-box;
+  position: relative;
+  overflow: hidden;
+}
+
+.imageContainer {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.userPicture {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: filter 0.3s ease;
+}
+
+.userIcon:hover .userPicture {
+  filter: blur(5px);
+}
+
+.userDetails {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.userIcon:hover .userDetails {
+  opacity: 1;
+}
+
+.personName {
+  font-size: 70px; /* Big font size */
+  color: white; /* White color */
+  text-shadow: 2px 2px 4px black; /* Black shadow */
+  font-family: "Times New Roman"; /* Times New Roman font */
+  background-color: transparent; /* Ensure no background color */
+}
+
+.editButton, .deleteButton {
+  margin-top: 15px;
+  padding: 10px 20px; /* Increase button padding */
+  background-color: #bd954f92;
+  color: rgb(255, 255, 255);
+  font-family: "Times New Roman";
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 18px; /* Increase font size */
+}
+
 
 .loginBox {
   background-color: rgba(203, 159, 97, 0.833);
-  border-radius: 8px;
-  padding: 40px;
-  text-align: center;
-  max-width: 400px;
-  margin: auto;
+  border-radius: 100%; /* Make it circular */
+  width: 500px; /* Ensure the width and height are equal to make it a circle */
+  height: 500px;
+  position: absolute; /* Position it absolutely */
+  top: 50%; /* Center it vertically */
+  left: 50%; /* Center it horizontally */
+  transform: translate(-50%, -50%); /* Adjust position to be truly centered */
+  z-index: 1; /* Lower z-index to be behind other elements */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
 }
 
 .logoContainer {
   margin-bottom: 20px;
 }
 
-.logo {
-    width: 100px;
-    height: 100px;
-    margin-bottom: 10px;
-}
-
-.title {
-    font-family: "Times New Roman";
-    color: #fff9f9;
-    font-size: 2.5rem;
-    margin-bottom: 20px;
+.logoContainer img {
+  margin-left: 101px; /* Move the logo to the right */
 }
 
 .titleLoggedOut {
@@ -46,7 +131,7 @@
   padding: 15px 20px;
   border-radius: 8px;
 }
-  
+
 .message {
   font-family: 'Times New Roman';
   color: #ffffff;
@@ -60,134 +145,3 @@
   font-size: 1.2rem;
   margin-bottom: 20px;
 }
-
-.iconGrid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(20%, 20%));
-    gap: 6%;
-    margin-top: 20px;
-}
-
-
-.editButton:hover {
-    background-color: #dba156;
-    font-family: "Times New Roman";
-}
-
-.text {
-    color: white;
-    font-size: 2rem;
-    font-family: "Times New Roman";
-    font-weight: bold;
-}
-
-
-.arrowButton {
-  background-color: #bd954f92;
-  color: white;
-  border: none;
-  border-radius: 50%;
-  width: 40px;
-  height: 40px;
-  font-size: 24px;
-  cursor: pointer;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.arrowButton:hover {
-  background-color: #dba156;
-}
-
-.addIcon {
-  margin-top: 20px;
-}
-
-.app {
-  padding-top: 5%;
-  padding-left: 2%;
-  padding-right: 2%;
-  text-align: center;
-  width: 100%;
-  max-width: 1200px;
-}
-
-  
-  .carousel {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 70vh; /* Increase the height of the carousel */
-    width: 100%;
-  }
-  
-  .carouselContent {
-    width: 400px; /* Increase the width of the carousel content */
-    height: 500px; /* Increase the height of the carousel content */
-    margin: 0 40px; /* Increase margin to give more space for arrow buttons */
-    display: flex;
-    font-size: 36px;
-    justify-content: center;
-    align-items: center;
-  }
-  
-  .arrowButton {
-    background-color: #bd954f92;
-    color: white;
-    border: none;
-    border-radius: 50%;
-    width: 60px; /* Increase button size */
-    height: 60px; /* Increase button size */
-    font-size: 36px; /* Increase arrow size */
-    cursor: pointer;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-  
-  .userIcon, .addIcon {
-    width: 100%;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    background-color: #e5bb7fbb;
-    border-radius: 16px; /* Increase border radius for a softer look */
-    padding: 30px; /* Increase padding */
-    box-sizing: border-box;
-  }
-  
-  .imageContainer {
-    width: 200px; /* Increase image container size */
-    height: 200px; /* Increase image container size */
-    margin-bottom: 20px;
-  }
-  
-  .userPicture, .addIconPic {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    border-radius: 50%;
-  }
-  
-  .text {
-    font-family: 'Times New Roman';
-    color: white;
-    font-size: 2rem; /* Increase font size */
-    font-weight: bold;
-    margin-top: 20px;
-  }
-  
-  .editButton, .deleteButton {
-    margin-top: 15px;
-    padding: 10px 20px; /* Increase button padding */
-    background-color: #bd954f92;
-    color: rgb(13, 1, 1);
-    font-family: "Times New Roman";
-    border: none;
-    border-radius: 6px;
-    cursor: pointer;
-    font-size: 18px; /* Increase font size */
-  }

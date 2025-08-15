@@ -4,6 +4,9 @@ import Image from 'next/image';
 import userImg from '../public/addUser.png';
 import LogoImg from '../public/Logo.png';
 import styles from '../styles/listOfPeople.module.css';
+import Loading from '../components/loading';
+
+const API_BASE_URL = "http://localhost:3000";
 
 const PersonIcon = ({ person, onDelete }) => {
   return (
@@ -11,38 +14,38 @@ const PersonIcon = ({ person, onDelete }) => {
       <div className={styles.imageContainer}>
         {person.profilePicture ? (
           <img
-          src={`/api${person.profilePicture.replace(/api\//, '')}`}
+            src={person.profilePicture}
             alt={person.name}
             width={100}
             height={100}
             className={styles.userPicture}
           />
         ) : (
-          <img
-            src={userImg}
-            alt="Default User"
-            width={100}
-            height={100}
-            className={styles.userPicture}
-          />
+          <div className={styles.placeholderImage}>
+            {person.name.charAt(0).toUpperCase()}
+          </div>
         )}
       </div>
-      <div className={styles.userName}>{person.name}</div>
-      <button onClick={() => onDelete(person.id)}>Delete</button>
+      <div className={styles.userDetails}>
+        <p className={styles.personName}>{person.name}</p>
+        <Link href={`/editPerson`}>
+          <button className={styles.editButton}>Edit Person</button>
+        </Link>
+        <button className={styles.deleteButton} onClick={() => onDelete(person._id)}>Delete Person</button>
+      </div>
     </div>
   );
 };
 
 const App = () => {
   const [user, setUser] = useState(null);
-  const [loading, setLoading] = useState(true);
   const [people, setPeople] = useState([]);
-  const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const checkLoginStatus = async () => {
       try {
-        const response = await fetch(`/api/user-profile`, {
+        const response = await fetch(`${API_BASE_URL}/api/user-profile`, {
           method: 'GET',
           credentials: 'include',
           headers: { 'Content-Type': 'application/json' },
@@ -66,7 +69,7 @@ const App = () => {
 
   const fetchPeople = async () => {
     try {
-      const response = await fetch(`/api/people`, {
+      const response = await fetch(`${API_BASE_URL}/api/people`, {
         method: 'GET',
         credentials: 'include'
       });
@@ -83,7 +86,7 @@ const App = () => {
 
   const handleDelete = async (personId) => {
     try {
-      const response = await fetch(`/api/people/${personId}`, {
+      const response = await fetch(`${API_BASE_URL}/api/people/${personId}`, {
         method: 'DELETE',
         credentials: 'include'
       });
@@ -108,6 +111,10 @@ const App = () => {
     setCurrentIndex((prevIndex) => (prevIndex - 1 + people.length + 1) % (people.length + 1));
   };
 
+  if (loading) {
+    return <Loading />;
+  }
+
   if (!user) {
     return (
       <div className={styles.background}>
@@ -115,10 +122,10 @@ const App = () => {
           <div className={styles.loginBox}>
             <div className={styles.logoContainer}>
               <Image src={LogoImg} alt="Memory Mosaic Logo" className={styles.logo} />
-              <h1 className={styles.title}>Memory Mosaic</h1>
+              <h1 className={styles.titleLoggedOut}>Memory Mosaic</h1>
             </div>
             <h2 className={styles.message}>Welcome!</h2>
-            <p className={styles.subMessage}>Please log in to continue</p>
+            <p className={styles.subMessage}>Please login!</p>
           </div>
         </div>
       </div>
@@ -140,10 +147,6 @@ const App = () => {
         </div>
       </div>
     );
-  }
-
-  if (error) {
-    return <div>Error: {error}</div>;
   }
 
   return (

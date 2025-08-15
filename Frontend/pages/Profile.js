@@ -3,6 +3,9 @@
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import styles from '../styles/profile.module.css';
+import Loading from '../components/loading';
+
+const API_BASE_URL = "http://localhost:3000";
 
 const Profile = () => {
   const [user, setUser] = useState(null);
@@ -12,7 +15,7 @@ const Profile = () => {
   useEffect(() => {
     const fetchUserProfile = async () => {
       try {
-        const response = await fetch(`/api/user-profile`, {
+        const response = await fetch(`${API_BASE_URL}/api/user-profile`, {
           method: 'GET',
           credentials: 'include',
           headers: {
@@ -40,7 +43,7 @@ const Profile = () => {
 
   const handleLogout = async () => {
     try {
-      const response = await fetch(`/api/logout`, {
+      const response = await fetch(`${API_BASE_URL}/logout`, {
         method: 'GET',
         credentials: 'include',
       });
@@ -66,6 +69,10 @@ const Profile = () => {
         <p className={styles.loginMessage}>Please log in under the Login tab!</p>
       </div>
     );
+  }
+
+  if (loading) {
+    return <Loading />;
   }
 
   return (

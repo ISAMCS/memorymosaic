@@ -7,18 +7,15 @@
   font-family: 'Courier New', Courier, monospace;
   text-align: center;
   padding: 325px 0px 325px 0px;
-  background-image: url(../public/children.jpg);
-  background-repeat: no-repeat;
-  background-size: cover;
-  background-position: top-center;
+  background: url(/children.jpg) center / cover no-repeat;
   width: 100%;
   height: auto;
 }
+
 .part1 h1 {
   font-size: 70px;
   background-color:#edd1a93d;
   padding-right: 50px;
-  padding-left: 50px;
 }
 
 .part1 h2 {

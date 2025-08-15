@@ -5,6 +5,9 @@ import Link from 'next/link';
 import Image from 'next/image';
 import styles from '../styles/CreateEdit.module.css';
 import LogoImg from '../public/Logo.png'; 
+import Loading from '../components/loading';
+
+const API_BASE_URL = "http://localhost:3000";
 
 const CreateEdit = () => {
   const [user, setUser] = useState(null);
@@ -13,7 +16,7 @@ const CreateEdit = () => {
   useEffect(() => {
     const checkLoginStatus = async () => {
       try {
-        const response = await fetch(`/api/user-profile`, {
+        const response = await fetch(`${API_BASE_URL}/api/user-profile`, {
           method: 'GET',
           credentials: 'include',
           headers: { 'Content-Type': 'application/json' },
@@ -33,6 +36,10 @@ const CreateEdit = () => {
     };
     checkLoginStatus();
   }, []);
+
+  if (loading) {
+    return <Loading />;
+  }
 
   if (!user) {
     return (

@@ -4,18 +4,21 @@ import React, { useEffect, useState } from 'react';
 import styles from '../styles/viewperson.module.css';
 import Image from 'next/image';
 import LogoImg from '../public/Logo.png';
+import Loading from '../components/loading';
+
+const API_BASE_URL = "http://localhost:3000";
 
 const ViewPerson = () => {
   const [user, setUser] = useState(null);
-  const [loading, setLoading] = useState(true);
   const [people, setPeople] = useState([]);
   const [selectedPerson, setSelectedPerson] = useState(null);
   const [currentMemoryIndex, setCurrentMemoryIndex] = useState(0);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const checkLoginStatus = async () => {
       try {
-        const response = await fetch(`/api/user-profile`, {
+        const response = await fetch(`${API_BASE_URL}/api/user-profile`, {
           method: 'GET',
           credentials: 'include',
           headers: { 'Content-Type': 'application/json' },
@@ -26,33 +29,26 @@ const ViewPerson = () => {
           fetchPeopleData();
         } else {
           setUser(null);
+          setLoading(false);
         }
       } catch (error) {
         console.error('Error checking login status:', error);
         setUser(null);
-      } finally {
         setLoading(false);
       }
     };
     checkLoginStatus();
   }, []);
 
-  const fetchPeopleData = () => {
-    fetch(`/api/people`, { credentials: 'include' })
-      .then(response => response.json())
-      .then(data => {
-        setPeople(data);
-        setLoading(false);
-      })
-      .catch(error => {
-        console.error('Error fetching people:', error);
-        setLoading(false);
-      });
-  };
-
-  const handleViewPerson = () => {
-    if (selectedPerson) {
-      console.log(`Viewing ${selectedPerson.name}'s memories`);
+  const fetchPeopleData = async () => {
+    try {
+      const response = await fetch(`${API_BASE_URL}/api/people`, { credentials: 'include' });
+      const data = await response.json();
+      setPeople(data);
+    } catch (error) {
+      console.error('Error fetching people:', error);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -74,6 +70,10 @@ const ViewPerson = () => {
       prevIndex < selectedPerson.memories.length - 1 ? prevIndex + 1 : 0
     );
   };
+
+  if (loading) {
+    return <Loading />;
+  }
 
   if (!user) {
     return (

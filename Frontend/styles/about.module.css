@@ -1,12 +1,17 @@
 .body {
-    width:100%;
-    overflow-x:hidden;
-    overflow-y:hidden;
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
 }
 
 .photo {
     background-image: url(../public/aboutpage.png);
-    height: 100%;
+    height: 100vh;
+    width: 100vw;
     background-position: center top;
     background-repeat: no-repeat;
     background-size: cover;
@@ -16,104 +21,195 @@
     font-family: 'Times New Roman';
     padding-top: 100px;
     padding-bottom: 60px;
+    color: #ffffff;
 }
+
 .ourTeam {
     margin-bottom: 50px;
     color: #ffffff;
-    font-weight:bolder; 
+    font-weight: bolder;
     text-align: center;
     font-family: "Times New Roman";
     font-size: 70px;
-    background-color:#edd1a93d;
+    background-color: #edd1a93d;
 }
 
-.table {
-    display: grid;
-    grid-template-columns: repeat(3,1fr);
-    grid-template-rows: repeat(3,1fr);
-    gap: 5%;
-    margin-right: 5%;
-    margin-left:5%;
-    margin-bottom: 200px;
+.carousel {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+    height: 500px;
 }
 
-.cells {
-    background-color:#e5bb7fbb;
-    border-radius: 10px;
+.carouselTrack {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 300%; /* Increased to show 3 items */
+    height: 100%;
+    position: relative;
 }
 
-.div1 {
-    grid-column-start: 1;
-    grid-column-start: 1;
+.arrow {
+    font-size: 50px;
+    color: white;
 }
 
-.div2 {
-    grid-column-start: 1;
-    grid-column-start: 2;
+.cells.current {
+    filter: none;
+    opacity: 1;
+    box-shadow: none; /* Remove shadow */
+    outline: none; /* Remove outline */
 }
 
-.div3 {
-    grid-column-start: 1;
-    grid-column-start: 3;
+.cells.blur {
+    filter: blur(5px);
+    opacity: 0.5;
 }
 
-.div4 {
-    grid-column-start: 2;
-    grid-column-start: 1;
+.cells.blur:hover {
+    filter: none;
+    opacity: 1;
 }
 
-.div5 {
-    grid-column-start: 2;
-    grid-column-start: 2;
-}
-
-.div6 {
-    grid-column-start: 2;
-    grid-column-start: 3;
-}
-
-.div7 {
-    grid-column-start: 3;
-    grid-column-start: 1;
-}
-
-.headshot {
-    width: 80%;
-    height: auto;
-    margin: 50px 10% 50px 10%;    
-    border-radius: 100%;
-    aspect-ratio: 1 / 1;
-}
-
-.customHeadshot {
-    width: 80%;
-    height: auto;
-    margin: 50px 10% 50px 10%;    
-    border-radius: 100%;
-    aspect-ratio: 1 / 1;
+.Headshot {
+    width: 100%;
+    height: 100%;
     object-fit: cover;
-    object-position: center 20%;
+    object-position: center;
+    transition: filter 0.3s ease; /* Add transition for smooth effect */
 }
 
-.name {
-    color: #ffffff;
-    font-weight:bolder; 
-    text-align: center;
-    font-size: 70px;
-    font-family: "Times New Roman";
+.cells:hover .Headshot {
+    filter: blur(5px); /* Apply blur on hover */
 }
 
 .position {
+    top: 50%;
     color: #ffffff;
-    font-weight:bold; 
-    text-align: center;
-    font-size: 50px;
+    font-weight: bold;
+    font-size: 20px;
     margin-bottom: 20px;
 }
 
-.muahisHeadshot {
-    width: 100%; /* Make the image take the full width of its container */
-    height: 60%; /* Make the image take the full height of its container */
-    object-fit: cover; 
-    overflow: hidden; 
+.arrowOverlay::after {
+    content: '\2192';
+    font-size: 50px;
+    color: white;
+}
+
+.cells:hover .arrowOverlay {
+    opacity: 1;
+}
+
+.cells {
+    position: absolute;
+    transition: all 0.5s ease;
+    width: 33.33%; /* One-third of the carousel track */
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
+
+.arrowOverlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.cells:hover .name,
+.cells:hover .position {
+    opacity: 1; /* Show on hover */
+}
+
+.cells.blur:hover .arrowOverlay {
+    opacity: 1;
+}
+
+.arrowOverlay::after {
+    content: '\2192';
+    font-size: 50px;
+    color: white;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.name, .position {
+    position: absolute;
+    width: 100%;
+    text-align: center;
+    transition: opacity 0.3s ease;
+    opacity: 0; /* Hide by default */
+    z-index: 2; /* Ensure text appears above the film */
+}
+
+.previousArrow {
+    justify-content: center; /* Center the content */
+}
+
+.nextArrow::before {
+    content: '→';  /* Right arrow for next */
+}
+
+.name {
+    top: 40%;
+    color: #ffffff;
+    font-weight: bolder;
+    font-size: 30px;
+    font-family: "Times New Roman";
+}
+
+.previousArrow::before,
+.nextArrow::before {
+    content: '←';  /* Left arrow for previous */
+    font-size: 50px;
+    color: white;
+}
+
+.previousArrow,
+.nextArrow {
+    position: absolute;
+    top: 50%; /* Center vertically */
+    left: 50%; /* Center horizontally */
+    transform: translate(-50%, -50%); /* Adjust to center */
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(0, 0, 0, 0.5);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.cells:hover .name,
+.cells:hover .position {
+    opacity: 1; /* Show on hover */
+}
+
+.cells:hover::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Black semi-transparent film */
+    z-index: 1; /* Ensure it appears behind the text */
 }

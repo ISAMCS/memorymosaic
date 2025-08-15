@@ -4,8 +4,11 @@ import documentImg from '../public/document.png';
 import writingImg from '../public/writing.png';
 import sendImg from '../public/send.png';
 import styles from '../styles/index.module.css';
+import Loading from '../components/loading';
+
 
 export default function Home() {
+
   return (
     <div className = {styles.page}>
       <div className={styles.part1}>

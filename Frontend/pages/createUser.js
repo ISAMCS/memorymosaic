@@ -5,6 +5,8 @@ import LogoImg from "../public/Logo.png";
 import Link from 'next/link';
 
 export default function createUser() {
+
+  
     return (
       <div className = {styles.photo}>
         <div className = {styles.pad}>
